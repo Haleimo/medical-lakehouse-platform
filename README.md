@@ -588,3 +588,13 @@ kubectl apply -f k8s/namespace.yaml -f k8s/configmap.yaml
 helm install garage ./charts/garage -f charts/garage/values.yaml \
   --set garage.rpcSecret=$(openssl rand -hex 32) --set garage.adminToken=$(openssl rand -hex 32)
 ```
+
+## 23. Authors & Team Contributions
+
+| Author | Role | GitHub Profile | Primary Contributions |
+| :--- | :--- | :--- | :--- |
+| **Abdelhaleem Mohammed** | Lead DevOps & GitOps Platform Engineer | [@Haleimo](https://github.com/Haleimo) | Kubernetes IaC, GitHub Actions, GitLab CI Container Registry, ArgoCD Sync Waves & Airflow GitSync Handoff |
+| **Mahmoud Saad** | Lead Data Engineer & Pipeline Architect | [@Mahmoud2saad](https://github.com/Mahmoud2saad) | FHIR/DICOM Ingestion, PHI De-identification, Airflow DAG, PySpark Iceberg Jobs & Trino Analytics SQL |
+
+For full itemized contribution details and DataOps collaboration architecture, see **[AUTHORS.md](file:///home/haleemo/Downloads/medical-lakehouse-platform/AUTHORS.md)** and **[docs/DATAOPS_COLLABORATION.md](file:///home/haleemo/Downloads/medical-lakehouse-platform/docs/DATAOPS_COLLABORATION.md)**.
+

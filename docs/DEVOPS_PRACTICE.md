@@ -1,6 +1,6 @@
 # Enterprise DevOps & GitOps Practice Guide
 
-This document presents the architecture and operational specification for deploying the **Medical Data Lakehouse Platform** using a hybrid **GitHub + GitLab + ArgoCD** GitOps pipeline.
+This document presents the architecture and operational specification for deploying the **Medical Data Lakehouse Platform** using a hybrid **GitHub + GitLab + ArgoCD** GitOps pipeline, engineered by **Abdelhaleem Mohammed** (Lead DevOps & GitOps Engineer) in collaboration with **Mahmoud Saad** (Lead Data Engineer).
 
 ---
 

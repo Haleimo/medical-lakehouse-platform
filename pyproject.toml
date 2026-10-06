@@ -1,15 +1,20 @@
+[project]
+name = "medical-lakehouse-platform"
+version = "1.0.0"
+description = "End-to-end Medical Data Lakehouse Platform orchestrated by Airflow, PySpark, Iceberg, Nessie, and Trino with Kubernetes, GitHub, GitLab CI, and ArgoCD"
+authors = [
+    { name = "Abdelhaleem Mohammed", email = "abdelhaleemmmohammed@example.com" },
+    { name = "Mahmoud Saad", email = "mahmoudsaad@example.com" }
+]
+
 [tool.ruff]
 line-length = 120
 target-version = "py311"
 exclude = ["helm", "charts", "argocd", "k8s"]
 
 [tool.ruff.lint]
-# Pragmatic rule set for a portfolio data-engineering project: real
-# correctness/hygiene checks (unused imports, undefined names, bugbear
-# gotchas) without the more opinionated stylistic/timezone-strictness rules
-# (DTZ, RUF, SIM, ...) that would add noise without adding much value here.
 select = ["E", "F", "W", "B", "I"]
-ignore = ["E501"]  # line length is handled by line-length above; long log/comment lines are fine
+ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["B"]

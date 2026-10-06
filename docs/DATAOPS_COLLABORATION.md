@@ -1,6 +1,6 @@
 # DataOps Collaboration & Handoff Specification
 
-This document details the **decoupled GitOps & DataOps collaboration strategy** between the **DevOps / Platform Engineer** and the **Data Engineer** for the Medical Data Lakehouse Platform.
+This document details the **decoupled GitOps & DataOps collaboration strategy** between **Abdelhaleem Mohammed** (Lead DevOps & GitOps Engineer) and **Mahmoud Saad** (Lead Data Engineer) for the Medical Data Lakehouse Platform.
 
 ---
 
@@ -10,7 +10,7 @@ To achieve maximum operational independence without sacrificing platform governa
 
 ```mermaid
 graph TD
-    subgraph DevOps_Domain["DevOps / Platform Engineer"]
+    subgraph DevOps_Domain["Abdelhaleem Mohammed (DevOps & GitOps Lead)"]
         Infra["Kubernetes Infrastructure (k8s/)"]
         Argo["ArgoCD GitOps Controller"]
         S3["Garage S3 Object Storage Cluster"]
@@ -20,7 +20,7 @@ graph TD
         CI_Pipelines["GitHub Actions & GitLab CI Security Scanning"]
     end
 
-    subgraph DE_Domain["Data Engineer"]
+    subgraph DE_Domain["Mahmoud Saad (Data Engineer Lead)"]
         DAGs["Airflow DAGs (dags/medical_data_pipeline.py)"]
         SparkJobs["Spark Transformation Jobs (spark/jobs/)"]
         Transformations["De-identification & Validation (src/)"]

@@ -1,0 +1,21 @@
+# Non-sensitive pipeline configuration. Sensitive values (DEID_SALT,
+# S3_ACCESS_KEY, S3_SECRET_KEY, Garage rpc/admin secrets) live in Secrets
+# instead -- see secret.example.yaml in this directory.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: medical-pipeline-config
+  namespace: data-lake
+data:
+  RUN_MODE: "cluster"
+  LOG_LEVEL: "INFO"
+  MAX_INVALID_RATIO: "0.2"
+  S3_ENDPOINT: "http://garage.data-lake.svc.cluster.local:3900"
+  S3_REGION: "garage"
+  BUCKET_RAW: "medical-raw"
+  BUCKET_BRONZE: "medical-bronze"
+  BUCKET_QUARANTINE: "medical-quarantine"
+  WAREHOUSE_PATH: "s3a://nessie-warehouse/"
+  NESSIE_URI: "http://nessie.data-lake.svc.cluster.local:19120/api/v2"
+  NESSIE_DEFAULT_BRANCH: "main"
+  ICEBERG_CATALOG_NAME: "iceberg"

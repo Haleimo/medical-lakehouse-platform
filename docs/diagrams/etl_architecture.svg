@@ -1,0 +1,178 @@
+<svg viewBox="0 0 1700 1150" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, sans-serif">
+
+<defs>
+  <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+    <path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/>
+  </marker>
+  <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+    <path d="M0,0 L8,3 L0,6 Z" fill="#dc2626"/>
+  </marker>
+  <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+    <path d="M0,0 L8,3 L0,6 Z" fill="#16a34a"/>
+  </marker>
+</defs>
+
+<rect x="0" y="0" width="1700" height="1150" fill="#f8fafc"/>
+<text x="850.0" y="42" text-anchor="middle" font-size="26" font-weight="800" fill="#0f172a">Medical Data Lakehouse Platform</text>
+<text x="850.0" y="66" text-anchor="middle" font-size="14.5" fill="#64748b">ETL / Data-Flow Architecture &#8212; medallion pipeline with quality gates</text>
+<rect x="90" y="130" width="280" height="190" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+<rect x="90" y="130" width="280" height="30" rx="10" fill="#64748b"/>
+<rect x="90" y="144" width="280" height="16" fill="#64748b"/>
+<text x="230.0" y="150" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">SOURCES</text>
+<text x="104" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">FHIR JSON / Bundles</text>
+<text x="104" y="197" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">  Patient, Encounter,</text>
+<text x="104" y="214" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">  Observation, Condition,</text>
+<text x="104" y="231" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">  MedicationRequest</text>
+<text x="104" y="248" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">DICOM imaging metadata</text>
+<text x="104" y="265" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">  (metadata only, no pixels)</text>
+<rect x="412" y="130" width="280" height="190" rx="10" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
+<rect x="412" y="130" width="280" height="30" rx="10" fill="#b45309"/>
+<rect x="412" y="144" width="280" height="16" fill="#b45309"/>
+<text x="552.0" y="150" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">BRONZE (raw)</text>
+<text x="426" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">run_ingestion()</text>
+<text x="426" y="197" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">src/ingestion/fhir_ingest.py</text>
+<text x="426" y="214" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">&#8226; validate_resource() per</text>
+<text x="426" y="231" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">  resource (structural +</text>
+<text x="426" y="248" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">  required fields + status</text>
+<text x="426" y="265" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">  enums + date sanity)</text>
+<text x="426" y="282" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">&#8226; stamp batch_id + timestamp</text>
+<rect x="734" y="130" width="280" height="190" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+<rect x="734" y="130" width="280" height="30" rx="10" fill="#7c3aed"/>
+<rect x="734" y="144" width="280" height="16" fill="#7c3aed"/>
+<text x="874.0" y="150" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">TRANSFORM (Spark)</text>
+<text x="748" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">spark/jobs/bronze_to_silver.py</text>
+<text x="748" y="197" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">1. parse_resource() &#8594; flat row</text>
+<text x="748" y="214" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">2. deidentify_row() &#8212; hash/</text>
+<text x="748" y="231" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">   null/generalize PHI fields</text>
+<text x="748" y="248" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">3. deduplicate(id_field='id')</text>
+<text x="748" y="265" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">4. referential-integrity check</text>
+<rect x="1056" y="130" width="280" height="190" rx="10" fill="#e2e8f0" stroke="#475569" stroke-width="1.5"/>
+<rect x="1056" y="130" width="280" height="30" rx="10" fill="#475569"/>
+<rect x="1056" y="144" width="280" height="16" fill="#475569"/>
+<text x="1196.0" y="150" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">SILVER (de-identified)</text>
+<text x="1070" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">Apache Iceberg via Nessie</text>
+<text x="1070" y="197" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">patient &#183; observation &#183;</text>
+<text x="1070" y="214" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">encounter &#183; condition &#183;</text>
+<text x="1070" y="231" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">medication_request</text>
+<text x="1070" y="248" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">assert_no_phi_leak() gate</text>
+<text x="1070" y="265" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">before any write is committed</text>
+<rect x="1378" y="130" width="280" height="190" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+<rect x="1378" y="130" width="280" height="30" rx="10" fill="#7c3aed"/>
+<rect x="1378" y="144" width="280" height="16" fill="#7c3aed"/>
+<text x="1518.0" y="150" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">AGGREGATE (Spark)</text>
+<text x="1392" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">spark/jobs/silver_to_gold.py</text>
+<text x="1392" y="197" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">src/transformations/gold.py</text>
+<text x="1392" y="214" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">&#8226; patient_summary</text>
+<text x="1392" y="231" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">&#8226; observation_daily_summary</text>
+<text x="1392" y="248" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">&#8226; encounter/condition/</text>
+<text x="1392" y="265" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">  medication_summary</text>
+<line x1="370" y1="225.0" x2="412" y2="225.0" stroke="#94a3b8" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<line x1="692" y1="225.0" x2="734" y2="225.0" stroke="#94a3b8" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<line x1="1014" y1="225.0" x2="1056" y2="225.0" stroke="#94a3b8" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<line x1="1336" y1="225.0" x2="1378" y2="225.0" stroke="#94a3b8" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<line x1="552.0" y1="320" x2="552.0" y2="361" stroke="#dc2626" stroke-width="2.25" stroke-dasharray="6,5" marker-end="url(#arrowhead-red)"/>
+<rect x="392" y="375" width="320" height="96" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+<rect x="392" y="375" width="320" height="30" rx="10" fill="#dc2626"/>
+<rect x="392" y="389" width="320" height="16" fill="#dc2626"/>
+<text x="552.0" y="395" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">QUARANTINE</text>
+<text x="406" y="425" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">invalid resources routed here,</text>
+<text x="406" y="442" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">never reach Bronze &#8212;</text>
+<text x="406" y="459" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">reason recorded (ValidationError)</text>
+<line x1="874.0" y1="320" x2="874.0" y2="361" stroke="#dc2626" stroke-width="2.25" stroke-dasharray="6,5" marker-end="url(#arrowhead-red)"/>
+<rect x="714" y="375" width="320" height="96" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+<rect x="714" y="375" width="320" height="30" rx="10" fill="#dc2626"/>
+<rect x="714" y="389" width="320" height="16" fill="#dc2626"/>
+<text x="874.0" y="395" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">QUALITY GATE</text>
+<text x="728" y="425" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">enforce_quality_gate()</text>
+<text x="728" y="442" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">invalid_ratio &gt; MAX_INVALID_RATIO</text>
+<text x="728" y="459" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">&#8594; raises DataQualityError, halts DAG</text>
+<line x1="1196.0" y1="320" x2="1196.0" y2="361" stroke="#dc2626" stroke-width="2.25" stroke-dasharray="6,5" marker-end="url(#arrowhead-red)"/>
+<rect x="1036" y="375" width="320" height="96" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+<rect x="1036" y="375" width="320" height="30" rx="10" fill="#dc2626"/>
+<rect x="1036" y="389" width="320" height="16" fill="#dc2626"/>
+<text x="1196.0" y="395" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">REFERENTIAL CHECK</text>
+<text x="1050" y="425" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">quarantine_referential_failures()</text>
+<text x="1050" y="442" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">patient_id, encounter_id, dicom-&gt;mrn_hash:</text>
+<text x="1050" y="459" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">persisted to quarantine, not just dropped</text>
+<rect x="90" y="500" width="280" height="170" rx="10" fill="#fef9c3" stroke="#a16207" stroke-width="1.5"/>
+<rect x="90" y="500" width="280" height="30" rx="10" fill="#a16207"/>
+<rect x="90" y="514" width="280" height="16" fill="#a16207"/>
+<text x="230.0" y="520" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">GOLD (BI-ready)</text>
+<text x="104" y="550" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">Apache Iceberg via Nessie</text>
+<text x="104" y="567" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">iceberg.medical_gold.*</text>
+<text x="104" y="584" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">one row per patient / day+code /</text>
+<text x="104" y="601" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">encounter class / condition /</text>
+<text x="104" y="618" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">medication code</text>
+<text x="104" y="635" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">BI-ready grain, no raw PHI</text>
+<rect x="412" y="500" width="280" height="170" rx="10" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+<rect x="412" y="500" width="280" height="30" rx="10" fill="#0d9488"/>
+<rect x="412" y="514" width="280" height="16" fill="#0d9488"/>
+<text x="552.0" y="520" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">SERVING</text>
+<text x="426" y="550" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">Trino distributed SQL engine</text>
+<text x="426" y="567" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">queries Iceberg/Nessie directly</text>
+<text x="426" y="584" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">sql/analytics/*.sql</text>
+<text x="426" y="601" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">&#8226; patient counts</text>
+<text x="426" y="618" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">&#8226; observation trends</text>
+<text x="426" y="635" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">&#8226; healthcare KPIs</text>
+<rect x="734" y="500" width="280" height="170" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+<rect x="734" y="500" width="280" height="30" rx="10" fill="#16a34a"/>
+<rect x="734" y="514" width="280" height="16" fill="#16a34a"/>
+<text x="874.0" y="520" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">CONSUMERS</text>
+<text x="748" y="550" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">BI dashboards / notebooks /</text>
+<text x="748" y="567" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">ad-hoc SQL over Trino</text>
+<text x="748" y="584" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">(no BI tool bundled &#8212;</text>
+<text x="748" y="601" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">see README limitations)</text>
+<rect x="1056" y="500" width="280" height="170" rx="10" fill="#e0e7ff" stroke="#4338ca" stroke-width="1.5"/>
+<rect x="1056" y="500" width="280" height="30" rx="10" fill="#4338ca"/>
+<rect x="1056" y="514" width="280" height="16" fill="#4338ca"/>
+<text x="1196.0" y="520" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">RUN MODES</text>
+<text x="1070" y="550" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">RUN_MODE=local (default)</text>
+<text x="1070" y="567" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">&#8226; Parquet on local disk,</text>
+<text x="1070" y="584" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">  data/{bronze,silver,gold}/</text>
+<text x="1070" y="601" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">RUN_MODE=cluster</text>
+<text x="1070" y="618" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">&#8226; real Iceberg tables via</text>
+<text x="1070" y="635" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" fill="#0f172a">  Nessie + S3-compatible Garage</text>
+<path d="M 1518.0 320 L 1518.0 485 L 390 485 L 390 500" fill="none" stroke="#7c3aed" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<line x1="370" y1="585.0" x2="412" y2="585.0" stroke="#94a3b8" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<line x1="692" y1="585.0" x2="734" y2="585.0" stroke="#94a3b8" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<line x1="1014" y1="585.0" x2="1056" y2="585.0" stroke="#94a3b8" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<rect x="70" y="730" width="1560" height="120" rx="10" fill="#eef2ff" stroke="#818cf8" stroke-width="1.5" stroke-dasharray="4,4"/>
+<text x="90" y="756" font-size="14.5" font-weight="700" fill="#4338ca">Airflow DAG execution order &#8212; medical_data_pipeline (daily, catchup=False, retries=2)</text>
+<rect x="105.0" y="775" width="200" height="46" rx="8" fill="#ffffff" stroke="#6366f1" stroke-width="1.3"/>
+<text x="205.0" y="803" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#3730a3">extract_validate_fhir</text>
+<line x1="305.0" y1="798" x2="320.0" y2="798" stroke="#a5b4fc" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<rect x="320.0" y="775" width="200" height="46" rx="8" fill="#ffffff" stroke="#6366f1" stroke-width="1.3"/>
+<text x="420.0" y="803" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#3730a3">deidentify</text>
+<line x1="520.0" y1="798" x2="535.0" y2="798" stroke="#a5b4fc" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<rect x="535.0" y="775" width="200" height="46" rx="8" fill="#ffffff" stroke="#6366f1" stroke-width="1.3"/>
+<text x="635.0" y="803" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#3730a3">spark_transform</text>
+<line x1="735.0" y1="798" x2="750.0" y2="798" stroke="#a5b4fc" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<rect x="750.0" y="775" width="200" height="46" rx="8" fill="#ffffff" stroke="#6366f1" stroke-width="1.3"/>
+<text x="850.0" y="803" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#3730a3">data_quality</text>
+<line x1="950.0" y1="798" x2="965.0" y2="798" stroke="#a5b4fc" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<rect x="965.0" y="775" width="200" height="46" rx="8" fill="#ffffff" stroke="#6366f1" stroke-width="1.3"/>
+<text x="1065.0" y="803" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#3730a3">write_silver</text>
+<line x1="1165.0" y1="798" x2="1180.0" y2="798" stroke="#a5b4fc" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<rect x="1180.0" y="775" width="200" height="46" rx="8" fill="#ffffff" stroke="#6366f1" stroke-width="1.3"/>
+<text x="1280.0" y="803" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#3730a3">build_gold</text>
+<line x1="1380.0" y1="798" x2="1395.0" y2="798" stroke="#a5b4fc" stroke-width="2.25" marker-end="url(#arrowhead)"/>
+<rect x="1395.0" y="775" width="200" height="46" rx="8" fill="#ffffff" stroke="#6366f1" stroke-width="1.3"/>
+<text x="1495.0" y="803" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#3730a3">post_load_validation</text>
+<line x1="874.0" y1="670" x2="874.0" y2="730" stroke="#a5b4fc" stroke-width="1.5" stroke-dasharray="3,4"/>
+<text x="70" y="900" font-size="13.5" font-weight="700" fill="#334155">Legend</text>
+<rect x="70" y="905" width="18" height="18" rx="4" fill="#f1f5f9" stroke="#64748b"/>
+<text x="96" y="919" font-size="12" fill="#334155">Source data</text>
+<rect x="300" y="905" width="18" height="18" rx="4" fill="#fde68a" stroke="#b45309"/>
+<text x="326" y="919" font-size="12" fill="#334155">Bronze (raw)</text>
+<rect x="530" y="905" width="18" height="18" rx="4" fill="#ede9fe" stroke="#7c3aed"/>
+<text x="556" y="919" font-size="12" fill="#334155">Spark transform step</text>
+<rect x="760" y="905" width="18" height="18" rx="4" fill="#e2e8f0" stroke="#475569"/>
+<text x="786" y="919" font-size="12" fill="#334155">Silver (de-identified)</text>
+<rect x="70" y="933" width="18" height="18" rx="4" fill="#fef9c3" stroke="#a16207"/>
+<text x="96" y="947" font-size="12" fill="#334155">Gold (BI-ready)</text>
+<rect x="300" y="933" width="18" height="18" rx="4" fill="#ccfbf1" stroke="#0d9488"/>
+<text x="326" y="947" font-size="12" fill="#334155">Serving (Trino)</text>
+<rect x="530" y="933" width="18" height="18" rx="4" fill="#fee2e2" stroke="#dc2626"/>
+<text x="556" y="947" font-size="12" fill="#334155">Quality gate / quarantine</text>
+<text x="1630" y="1132" text-anchor="end" font-size="11" fill="#94a3b8">medical-lakehouse-platform &#183; etl_architecture.svg</text>
+</svg>

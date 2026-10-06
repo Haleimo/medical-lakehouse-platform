@@ -1,0 +1,114 @@
+# Local development stack for the Medical Data Lakehouse Platform.
+#
+# Honesty note (see README "Known limitations"): this compose file was
+# authored against each project's documented Compose patterns
+# (Airflow: https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html,
+#  Garage: https://garagehq.deuxfleurs.fr/documentation/quick-start/,
+#  Nessie: https://projectnessie.org/guides/setup-server/,
+#  Trino: https://trino.io/docs/current/installation/containers.html)
+# but has not been run end-to-end inside the sandboxed environment this
+# repository was built in (no Docker daemon / no Docker Hub network access
+# there). The pipeline logic itself (ingestion, de-identification, Spark
+# transform, quality checks, Gold aggregation) IS verified -- see the
+# "Tested" section of the project report -- independently of this compose
+# file, by running the same Python entrypoints directly in `RUN_MODE=local`.
+# Please open an issue / PR if you hit a compose-specific snag.
+
+x-airflow-common: &airflow-common
+  build:
+    context: .
+    dockerfile: docker/Dockerfile.airflow
+  environment: &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:${AIRFLOW_DB_PASSWORD:?set AIRFLOW_DB_PASSWORD in .env}@postgres/airflow
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW_FERNET_KEY:?set AIRFLOW_FERNET_KEY in .env}
+    RUN_MODE: local
+    LOCAL_DATA_ROOT: /opt/airflow/data
+    DEID_SALT: ${DEID_SALT:?set DEID_SALT in .env}
+    MAX_INVALID_RATIO: ${MAX_INVALID_RATIO:-0.2}
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./data:/opt/airflow/data
+    - airflow-logs:/opt/airflow/logs
+  depends_on:
+    postgres:
+      condition: service_healthy
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: ${AIRFLOW_DB_PASSWORD:?set AIRFLOW_DB_PASSWORD in .env}
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 10
+
+  airflow-init:
+    <<: *airflow-common
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - airflow db migrate && airflow users create --username admin --password "${AIRFLOW_ADMIN_PASSWORD:?set AIRFLOW_ADMIN_PASSWORD in .env}" --firstname Admin --lastname User --role Admin --email admin@example.com
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    depends_on:
+      - airflow-init
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    depends_on:
+      - airflow-init
+
+  garage:
+    image: dxflrs/garage:v1.0.1
+    environment:
+      GARAGE_RPC_SECRET: ${GARAGE_RPC_SECRET:?set GARAGE_RPC_SECRET in .env}
+      GARAGE_ADMIN_TOKEN: ${GARAGE_ADMIN_TOKEN:?set GARAGE_ADMIN_TOKEN in .env}
+    volumes:
+      - ./config/garage.toml:/etc/garage.toml:ro
+      - garage-data:/var/lib/garage/data
+      - garage-meta:/var/lib/garage/meta
+    ports:
+      - "3900:3900"   # S3 API
+      - "3901:3901"   # RPC
+      - "3903:3903"   # admin API
+
+  nessie:
+    image: ghcr.io/projectnessie/nessie:0.99.0
+    environment:
+      QUARKUS_HTTP_PORT: "19120"
+      NESSIE_VERSION_STORE_TYPE: IN_MEMORY  # Portfolio/demo only; see README limitations.
+    ports:
+      - "19120:19120"
+
+  trino:
+    image: trinodb/trino:451
+    volumes:
+      - ./config/trino/catalog:/etc/trino/catalog:ro
+    ports:
+      - "8081:8080"
+    depends_on:
+      - nessie
+      - garage
+
+volumes:
+  postgres-data:
+  airflow-logs:
+  garage-data:
+  garage-meta:

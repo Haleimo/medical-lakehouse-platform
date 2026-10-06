@@ -1,0 +1,139 @@
+<svg viewBox="0 0 1500 1170" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, -apple-system, sans-serif">
+<defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker></defs>
+<rect width="1500" height="1170" fill="#f8fafc"/>
+<text x="750.0" y="40" text-anchor="middle" font-size="26" font-weight="800" fill="#0f172a">Medical Data Lakehouse Platform</text>
+<text x="750.0" y="64" text-anchor="middle" font-size="14.5" fill="#64748b">Gold data marts and Silver &#8594; Gold lineage</text>
+<path d="M 320 200 C 540.0 200, 540.0 196.0, 758 196.0" fill="none" stroke="#475569" stroke-width="2.2" opacity="0.85" marker-end="url(#ah)"/>
+<path d="M 320 330 C 540.0 330, 540.0 212.0, 758 212.0" fill="none" stroke="#2563eb" stroke-width="2.2" opacity="0.85" marker-end="url(#ah)"/>
+<path d="M 320 460 C 540.0 460, 540.0 228.0, 758 228.0" fill="none" stroke="#7c3aed" stroke-width="2.2" opacity="0.85" marker-end="url(#ah)"/>
+<path d="M 320 590 C 540.0 590, 540.0 244.0, 758 244.0" fill="none" stroke="#b45309" stroke-width="2.2" opacity="0.85" marker-end="url(#ah)"/>
+<path d="M 320 720 C 540.0 720, 540.0 485.0, 758 485.0" fill="none" stroke="#0d9488" stroke-width="2.2" opacity="0.85" marker-end="url(#ah)"/>
+<path d="M 320 330 C 540.0 330, 540.0 706.0, 758 706.0" fill="none" stroke="#2563eb" stroke-width="2.2" opacity="0.85" marker-end="url(#ah)"/>
+<path d="M 320 460 C 540.0 460, 540.0 883.0, 758 883.0" fill="none" stroke="#7c3aed" stroke-width="2.2" opacity="0.85" marker-end="url(#ah)"/>
+<path d="M 320 590 C 540.0 590, 540.0 1071.0, 758 1071.0" fill="none" stroke="#b45309" stroke-width="2.2" opacity="0.85" marker-end="url(#ah)"/>
+<rect x="60" y="172.0" width="260" height="56" rx="8" fill="#ffffff" stroke="#475569" stroke-width="1.8"/>
+<rect x="60" y="172.0" width="8" height="56" rx="4" fill="#475569"/>
+<text x="84" y="197" font-size="14" font-weight="700" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">patient</text>
+<text x="84" y="215" font-size="11" fill="#64748b">iceberg.medical (Silver)</text>
+<rect x="60" y="302.0" width="260" height="56" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.8"/>
+<rect x="60" y="302.0" width="8" height="56" rx="4" fill="#2563eb"/>
+<text x="84" y="327" font-size="14" font-weight="700" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">encounter</text>
+<text x="84" y="345" font-size="11" fill="#64748b">iceberg.medical (Silver)</text>
+<rect x="60" y="432.0" width="260" height="56" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8"/>
+<rect x="60" y="432.0" width="8" height="56" rx="4" fill="#7c3aed"/>
+<text x="84" y="457" font-size="14" font-weight="700" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">condition</text>
+<text x="84" y="475" font-size="11" fill="#64748b">iceberg.medical (Silver)</text>
+<rect x="60" y="562.0" width="260" height="56" rx="8" fill="#ffffff" stroke="#b45309" stroke-width="1.8"/>
+<rect x="60" y="562.0" width="8" height="56" rx="4" fill="#b45309"/>
+<text x="84" y="587" font-size="14" font-weight="700" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">medication_request</text>
+<text x="84" y="605" font-size="11" fill="#64748b">iceberg.medical (Silver)</text>
+<rect x="60" y="692.0" width="260" height="56" rx="8" fill="#ffffff" stroke="#0d9488" stroke-width="1.8"/>
+<rect x="60" y="692.0" width="8" height="56" rx="4" fill="#0d9488"/>
+<text x="84" y="717" font-size="14" font-weight="700" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">observation</text>
+<text x="84" y="735" font-size="11" fill="#64748b">iceberg.medical (Silver)</text>
+<rect x="760" y="110" width="620" height="220" rx="8" fill="#ffffff" stroke="#a16207" stroke-width="1.6"/>
+<rect x="760" y="110" width="620" height="34" rx="8" fill="#a16207"/>
+<rect x="760" y="134" width="620" height="10" fill="#a16207"/>
+<text x="774" y="132" font-size="14.5" font-weight="700" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#fff">patient_summary</text>
+<text x="1366" y="132" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#fef3c7">iceberg.medical_gold</text>
+<text x="776" y="159" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">patient_id</text>
+<text x="1366" y="159" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="761" y="166" width="618" height="22" fill="#fefce8"/>
+<text x="776" y="181" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">gender</text>
+<text x="1366" y="181" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="776" y="203" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">age_band</text>
+<text x="1366" y="203" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="761" y="210" width="618" height="22" fill="#fefce8"/>
+<text x="776" y="225" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">birth_year</text>
+<text x="1366" y="225" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">INTEGER</text>
+<text x="776" y="247" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">encounter_count</text>
+<text x="1366" y="247" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">BIGINT</text>
+<rect x="761" y="254" width="618" height="22" fill="#fefce8"/>
+<text x="776" y="269" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">condition_count</text>
+<text x="1366" y="269" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">BIGINT</text>
+<text x="776" y="291" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">medication_count</text>
+<text x="1366" y="291" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">BIGINT</text>
+<text x="774" y="315" font-size="10.5" font-style="italic" fill="#64748b">grain: one row per patient</text>
+<rect x="760" y="364" width="620" height="242" rx="8" fill="#ffffff" stroke="#a16207" stroke-width="1.6"/>
+<rect x="760" y="364" width="620" height="34" rx="8" fill="#a16207"/>
+<rect x="760" y="388" width="620" height="10" fill="#a16207"/>
+<text x="774" y="386" font-size="14.5" font-weight="700" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#fff">observation_daily_summary</text>
+<text x="1366" y="386" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#fef3c7">iceberg.medical_gold</text>
+<text x="776" y="413" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">observation_date</text>
+<text x="1366" y="413" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">DATE</text>
+<rect x="761" y="420" width="618" height="22" fill="#fefce8"/>
+<text x="776" y="435" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">code_system</text>
+<text x="1366" y="435" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="776" y="457" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">code</text>
+<text x="1366" y="457" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="761" y="464" width="618" height="22" fill="#fefce8"/>
+<text x="776" y="479" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">code_display</text>
+<text x="1366" y="479" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="776" y="501" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">observation_count</text>
+<text x="1366" y="501" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">BIGINT</text>
+<rect x="761" y="508" width="618" height="22" fill="#fefce8"/>
+<text x="776" y="523" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">avg_value</text>
+<text x="1366" y="523" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">DOUBLE</text>
+<text x="776" y="545" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">min_value</text>
+<text x="1366" y="545" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">DOUBLE</text>
+<rect x="761" y="552" width="618" height="22" fill="#fefce8"/>
+<text x="776" y="567" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">max_value</text>
+<text x="1366" y="567" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">DOUBLE</text>
+<text x="774" y="589" font-size="10.5" font-style="italic" fill="#64748b">grain: day + coding system + code   |   partitioned by day(observation_date)</text>
+<rect x="760" y="640" width="620" height="132" rx="8" fill="#ffffff" stroke="#a16207" stroke-width="1.6"/>
+<rect x="760" y="640" width="620" height="34" rx="8" fill="#a16207"/>
+<rect x="760" y="664" width="620" height="10" fill="#a16207"/>
+<text x="774" y="662" font-size="14.5" font-weight="700" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#fff">encounter_summary</text>
+<text x="1366" y="662" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#fef3c7">iceberg.medical_gold</text>
+<text x="776" y="689" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">class_code</text>
+<text x="1366" y="689" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="761" y="696" width="618" height="22" fill="#fefce8"/>
+<text x="776" y="711" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">status</text>
+<text x="1366" y="711" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="776" y="733" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">encounter_count</text>
+<text x="1366" y="733" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">BIGINT</text>
+<text x="774" y="757" font-size="10.5" font-style="italic" fill="#64748b">grain: class_code + status</text>
+<rect x="760" y="806" width="620" height="154" rx="8" fill="#ffffff" stroke="#a16207" stroke-width="1.6"/>
+<rect x="760" y="806" width="620" height="34" rx="8" fill="#a16207"/>
+<rect x="760" y="830" width="620" height="10" fill="#a16207"/>
+<text x="774" y="828" font-size="14.5" font-weight="700" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#fff">condition_summary</text>
+<text x="1366" y="828" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#fef3c7">iceberg.medical_gold</text>
+<text x="776" y="855" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">code</text>
+<text x="1366" y="855" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="761" y="862" width="618" height="22" fill="#fefce8"/>
+<text x="776" y="877" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">code_display</text>
+<text x="1366" y="877" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="776" y="899" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">condition_count</text>
+<text x="1366" y="899" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">BIGINT</text>
+<rect x="761" y="906" width="618" height="22" fill="#fefce8"/>
+<text x="776" y="921" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">patient_count</text>
+<text x="1366" y="921" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">BIGINT</text>
+<text x="774" y="945" font-size="10.5" font-style="italic" fill="#64748b">grain: condition code</text>
+<rect x="760" y="994" width="620" height="154" rx="8" fill="#ffffff" stroke="#a16207" stroke-width="1.6"/>
+<rect x="760" y="994" width="620" height="34" rx="8" fill="#a16207"/>
+<rect x="760" y="1018" width="620" height="10" fill="#a16207"/>
+<text x="774" y="1016" font-size="14.5" font-weight="700" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#fff">medication_summary</text>
+<text x="1366" y="1016" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#fef3c7">iceberg.medical_gold</text>
+<text x="776" y="1043" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">medication_code</text>
+<text x="1366" y="1043" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="761" y="1050" width="618" height="22" fill="#fefce8"/>
+<text x="776" y="1065" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">medication_display</text>
+<text x="1366" y="1065" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="776" y="1087" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">prescription_count</text>
+<text x="1366" y="1087" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">BIGINT</text>
+<rect x="761" y="1094" width="618" height="22" fill="#fefce8"/>
+<text x="776" y="1109" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">patient_count</text>
+<text x="1366" y="1109" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">BIGINT</text>
+<text x="774" y="1133" font-size="10.5" font-style="italic" fill="#64748b">grain: medication code</text>
+<text x="60" y="96" font-size="13" font-weight="700" fill="#334155">SILVER (source)</text>
+<text x="760" y="96" font-size="13" font-weight="700" fill="#334155">GOLD (aggregated, BI-ready)  &#8212;  written by spark/jobs/silver_to_gold.py</text>
+<rect x="60" y="810" width="340" height="144" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.4"/>
+<text x="74" y="834" font-size="13.5" font-weight="700" fill="#92400e">Design notes</text>
+<text x="74" y="856" font-size="11.5" fill="#451a03">Gold tables are aggregates, not copies of Silver.</text>
+<text x="74" y="873" font-size="11.5" fill="#451a03">There are no foreign keys between Gold tables:</text>
+<text x="74" y="890" font-size="11.5" fill="#451a03">each is a self-contained mart at the grain a</text>
+<text x="74" y="907" font-size="11.5" fill="#451a03">dashboard queries (no joins needed at read time).</text>
+<text x="74" y="924" font-size="11.5" fill="#451a03">patient_id in patient_summary is the only</text>
+<text x="74" y="941" font-size="11.5" fill="#451a03">row-level identifier and is already pseudonymous.</text>
+<text x="1460" y="1156" text-anchor="end" font-size="11" fill="#94a3b8">medical-lakehouse-platform &#183; gold_model.svg</text>
+</svg>

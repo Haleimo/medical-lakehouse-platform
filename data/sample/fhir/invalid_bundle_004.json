@@ -1,0 +1,30 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-9001",
+        "status": "not-a-real-status",
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8480-6", "display": "Systolic blood pressure"}]},
+        "subject": {"reference": "Patient/pat-9999"}
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "active": true,
+        "gender": "male",
+        "birthDate": "not-a-date"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "LabReport",
+        "id": "unsupported-1",
+        "status": "final"
+      }
+    }
+  ]
+}

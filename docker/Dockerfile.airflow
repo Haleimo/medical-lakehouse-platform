@@ -1,0 +1,30 @@
+# Airflow image for the medical data pipeline.
+# Builds on the official Airflow image and adds:
+#   - this repo's `src/` (reusable pipeline modules) and `dags/`
+#   - the pipeline's own requirements (pandas, boto3, pyspark)
+# Airflow itself and its constraints-pinned dependencies come from the base
+# image, so we do NOT `pip install apache-airflow` again here.
+ARG AIRFLOW_VERSION=2.9.3
+ARG PYTHON_VERSION=3.11
+FROM apache/airflow:${AIRFLOW_VERSION}-python${PYTHON_VERSION}
+
+USER root
+# A JDK is required for the PySpark jobs invoked by the DAG (spark_transform,
+# build_gold tasks shell out to `python spark/jobs/*.py`).
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends default-jre-headless \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+USER airflow
+
+COPY --chown=airflow:root requirements.txt /opt/airflow/requirements.txt
+RUN pip install --no-cache-dir --user -r /opt/airflow/requirements.txt
+
+COPY --chown=airflow:root src/ /opt/airflow/src/
+COPY --chown=airflow:root spark/ /opt/airflow/spark/
+COPY --chown=airflow:root dags/ /opt/airflow/dags/
+COPY --chown=airflow:root data/sample/ /opt/airflow/data/sample/
+
+ENV PYTHONPATH=/opt/airflow
+ENV RUN_MODE=local
+ENV LOCAL_DATA_ROOT=/opt/airflow/data

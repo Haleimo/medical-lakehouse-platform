@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: garage
+  namespace: {{ .Values.global.namespace | default "data-lake" }}
+  labels:
+    app.kubernetes.io/name: garage
+spec:
+  replicas: {{ .Values.garage.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: garage
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: garage
+    spec:
+      containers:
+        - name: garage
+          image: "{{ .Values.garage.image.repository }}:{{ .Values.garage.image.tag }}"
+          imagePullPolicy: {{ .Values.garage.image.pullPolicy }}
+          command: ["/garage", "-c", "/etc/garage.toml", "server"]
+          env:
+            - name: GARAGE_RPC_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.garage.existingSecret | default "garage-credentials" }}
+                  key: rpc-secret
+            - name: GARAGE_ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.garage.existingSecret | default "garage-credentials" }}
+                  key: admin-token
+          ports:
+            - name: s3-api
+              containerPort: {{ .Values.garage.service.s3Port }}
+            - name: rpc
+              containerPort: {{ .Values.garage.service.rpcPort }}
+            - name: admin
+              containerPort: {{ .Values.garage.service.adminPort }}
+            - name: web
+              containerPort: {{ .Values.garage.service.webPort }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/garage.toml
+              subPath: garage.toml
+            - name: data-volume
+              mountPath: /var/lib/garage
+          resources:
+            {{- toYaml .Values.garage.resources | nindent 12 }}
+          readinessProbe:
+            tcpSocket:
+              port: s3-api
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: s3-api
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      volumes:
+        - name: config-volume
+          configMap:
+            name: garage-config
+        - name: data-volume
+          # Was `emptyDir: {}` -- data was lost on every pod restart/reschedule.
+          # A real Garage cluster deployment (multiple nodes, each with their
+          # own PVC) would go further than this single-PVC setup; see
+          # values.yaml's storage comment and the README "Known limitations"
+          # / "High Availability" sections for what that would take.
+          persistentVolumeClaim:
+            claimName: garage-data

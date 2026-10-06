@@ -1,0 +1,53 @@
+name: GitOps Deployment Trigger
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      target_env:
+        description: 'Target Deployment Environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  notify-gitops-pipeline:
+    name: Notify GitOps & Mirror to GitLab
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Mirror Repository to GitLab
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_SYNC_TOKEN }}
+          GITLAB_REPO: ${{ secrets.GITLAB_REPO_URL }}
+        run: |
+          if [ -n "$GITLAB_TOKEN" ] && [ -n "$GITLAB_REPO" ]; then
+            git remote add gitlab "https://oauth2:${GITLAB_TOKEN}@${GITLAB_REPO#https://}"
+            git push --force --prune gitlab refs/remotes/origin/*:refs/heads/*
+            git push --tags gitlab
+          else
+            echo "GitLab sync secrets not configured; skipping automatic push to GitLab mirror."
+          fi
+
+      - name: Trigger ArgoCD Webhook Refresh
+        env:
+          ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+          ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
+        run: |
+          if [ -n "$ARGOCD_SERVER" ] && [ -n "$ARGOCD_TOKEN" ]; then
+            echo "Triggering ArgoCD Application Sync..."
+            curl -k -X POST "$ARGOCD_SERVER/api/v1/applications/medical-lakehouse-root/sync" \
+              -H "Authorization: Bearer $ARGOCD_TOKEN" \
+              -H "Content-Type: application/json"
+          else
+            echo "ArgoCD credentials not configured; ArgoCD will perform automated polling sync."
+          fi

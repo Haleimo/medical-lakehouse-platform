@@ -1,0 +1,94 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "pat-1001",
+        "active": true,
+        "identifier": [
+          {"system": "http://hospital.org/mrn", "type": {"coding": [{"code": "MR"}]}, "value": "MRN-778812"},
+          {"system": "http://hl7.org/fhir/sid/us-ssn", "value": "123-45-6789"}
+        ],
+        "name": [{"use": "official", "family": "Rivera", "given": ["Elena"]}],
+        "gender": "female",
+        "birthDate": "1982-04-17",
+        "telecom": [
+          {"system": "phone", "value": "555-201-8834"},
+          {"system": "email", "value": "elena.rivera@example.com"}
+        ],
+        "address": [
+          {"line": ["482 Maple Street"], "city": "Springfield", "state": "IL", "postalCode": "62704", "country": "US"}
+        ],
+        "meta": {"versionId": "1", "lastUpdated": "2026-01-05T10:15:00+00:00"}
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-2001",
+        "status": "finished",
+        "class": {"code": "AMB", "display": "ambulatory"},
+        "type": [{"coding": [{"code": "185349003", "display": "Encounter for check up"}]}],
+        "subject": {"reference": "Patient/pat-1001"},
+        "period": {"start": "2026-01-05T09:00:00+00:00", "end": "2026-01-05T09:45:00+00:00"},
+        "serviceProvider": {"reference": "Organization/org-1"}
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-3001",
+        "status": "final",
+        "category": [{"coding": [{"code": "vital-signs", "display": "Vital Signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8480-6", "display": "Systolic blood pressure"}]},
+        "subject": {"reference": "Patient/pat-1001"},
+        "encounter": {"reference": "Encounter/enc-2001"},
+        "effectiveDateTime": "2026-01-05T09:10:00+00:00",
+        "valueQuantity": {"value": 128, "unit": "mmHg"},
+        "interpretation": [{"coding": [{"code": "N", "display": "Normal"}]}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-3002",
+        "status": "final",
+        "category": [{"coding": [{"code": "laboratory", "display": "Laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "2345-7", "display": "Glucose"}]},
+        "subject": {"reference": "Patient/pat-1001"},
+        "encounter": {"reference": "Encounter/enc-2001"},
+        "effectiveDateTime": "2026-01-05T09:20:00+00:00",
+        "valueQuantity": {"value": 96, "unit": "mg/dL"},
+        "interpretation": [{"coding": [{"code": "N", "display": "Normal"}]}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-4001",
+        "clinicalStatus": {"coding": [{"code": "active"}]},
+        "verificationStatus": {"coding": [{"code": "confirmed"}]},
+        "code": {"coding": [{"system": "http://snomed.info/sct", "code": "44054006", "display": "Type 2 diabetes mellitus"}]},
+        "subject": {"reference": "Patient/pat-1001"},
+        "encounter": {"reference": "Encounter/enc-2001"},
+        "onsetDateTime": "2021-03-01",
+        "recordedDate": "2026-01-05"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-5001",
+        "status": "active",
+        "intent": "order",
+        "medicationCodeableConcept": {"coding": [{"system": "http://www.nlm.nih.gov/research/umls/rxnorm", "code": "860975", "display": "Metformin 500 MG"}]},
+        "subject": {"reference": "Patient/pat-1001"},
+        "encounter": {"reference": "Encounter/enc-2001"},
+        "authoredOn": "2026-01-05",
+        "dosageInstruction": [{"text": "Take one tablet by mouth twice daily"}]
+      }
+    }
+  ]
+}

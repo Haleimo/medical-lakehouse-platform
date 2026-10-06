@@ -1,0 +1,47 @@
+# Reference example: run spark/jobs/bronze_to_silver.py as a plain
+# Kubernetes Job (not a distributed Spark-on-Kubernetes cluster).
+#
+# Honesty note (see README "Known limitations"): this repository's Spark
+# jobs are written and tested to run in `local[*]` mode (single pod/process,
+# multi-threaded) -- that IS real, distributed-programming-model PySpark
+# (RDDs/DataFrames, not just pandas), just not spread across multiple
+# machines. Submitting the same jobs to a true multi-node Spark cluster
+# (via spark-submit --master k8s://... or the Spark Operator CRD) would work
+# unchanged from a code perspective -- build_spark_session() already branches
+# on RUN_MODE and configures the Iceberg/Nessie catalog for cluster mode --
+# but that multi-node submission path is NOT deployed/tested here. Treat
+# this file as a working single-pod batch job, and the Spark Operator
+# integration mentioned in the original architecture diagram as documented
+# future work, not a present capability.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: medical-bronze-to-silver
+  namespace: data-lake
+spec:
+  backoffLimit: 2
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: bronze-to-silver
+          image: <your-registry>/medical-lakehouse-airflow:latest
+          # Reuses the Airflow image (docker/Dockerfile.airflow) since it
+          # already has src/, spark/, a JDK, and requirements.txt installed --
+          # avoids maintaining a second, near-identical image.
+          command: ["python", "spark/jobs/bronze_to_silver.py", "--batch-id", "$(BATCH_ID)"]
+          env:
+            - name: BATCH_ID
+              value: "REPLACE_AT_SUBMIT_TIME"
+          envFrom:
+            - configMapRef:
+                name: medical-pipeline-config
+            - secretRef:
+                name: medical-pipeline-secrets
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 2Gi

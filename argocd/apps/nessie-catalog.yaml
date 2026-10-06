@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nessie-catalog
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  labels:
+    app.kubernetes.io/part-of: medical-lakehouse
+    app.kubernetes.io/component: catalog
+spec:
+  project: default
+  source:
+    repoURL: 'https://charts.projectnessie.org'
+    chart: nessie
+    targetRevision: 0.95.0
+    helm:
+      values: |
+        replicaCount: 2
+        versionStoreType: JDBC
+        jdbc:
+          jdbcUrl: "jdbc:postgresql://postgresql-external.data-lake.svc.cluster.local:5432/nessie"
+          secret:
+            name: nessie-db-credentials
+            usernameKey: username
+            passwordKey: password
+        extraEnv:
+          - name: NESSIE_CATALOG_DEFAULT_WAREHOUSE
+            value: "s3://nessie-warehouse/"
+          - name: S3_ENDPOINT
+            value: "http://garage.data-lake.svc.cluster.local:3900"
+          - name: S3_PATH_STYLE_ACCESS
+            value: "true"
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: data-lake
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 3
+      backoff:
+        duration: 5s
+        factor: 2

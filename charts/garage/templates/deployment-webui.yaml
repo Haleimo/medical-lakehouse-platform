@@ -1,0 +1,48 @@
+{{- if .Values.webui.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: garage-webui
+  namespace: {{ .Values.global.namespace | default "data-lake" }}
+  labels:
+    app.kubernetes.io/name: garage-webui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: garage-webui
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: garage-webui
+    spec:
+      containers:
+        - name: garage-webui
+          image: "{{ .Values.webui.image.repository }}:{{ .Values.webui.image.tag }}"
+          imagePullPolicy: {{ .Values.webui.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.webui.service.port }}
+          env:
+            - name: GARAGE_ADMIN_URL
+              value: {{ .Values.webui.env.GARAGE_ADMIN_URL | quote }}
+            - name: GARAGE_S3_URL
+              value: {{ .Values.webui.env.GARAGE_S3_URL | quote }}
+            - name: GARAGE_ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.garage.existingSecret | default "garage-credentials" }}
+                  key: admin-token
+          resources:
+            {{- toYaml .Values.webui.resources | nindent 12 }}
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
+{{- end }}

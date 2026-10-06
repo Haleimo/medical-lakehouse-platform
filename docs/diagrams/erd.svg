@@ -1,0 +1,305 @@
+<svg viewBox="0 0 1640 1200" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, -apple-system, sans-serif">
+<rect width="1640" height="1200" fill="#f8fafc"/>
+<text x="820.0" y="40" text-anchor="middle" font-size="26" font-weight="800" fill="#0f172a">Medical Data Lakehouse Platform</text>
+<text x="820.0" y="64" text-anchor="middle" font-size="14.5" fill="#64748b">Entity Relationship Diagram &#8212; Silver layer (de-identified FHIR + DICOM metadata)</text>
+<rect x="60" y="140" width="380" height="370" rx="8" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
+<rect x="60" y="140" width="380" height="34" rx="8" fill="#475569"/>
+<rect x="60" y="164" width="380" height="10" fill="#475569"/>
+<text x="72" y="162" font-size="14.5" font-weight="700" fill="#fff" font-family="ui-monospace, 'SF Mono', Consolas, monospace">patient</text>
+<text x="428" y="162" text-anchor="end" font-size="10.5" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Consolas, monospace">iceberg.medical</text>
+<rect x="68" y="178" width="24" height="14" rx="3" fill="#f59e0b"/>
+<text x="80" y="189" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">PK</text>
+<text x="100" y="189" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">id</text>
+<text x="428" y="189" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="61" y="196" width="378" height="22" fill="#f8fafc"/>
+<text x="100" y="211" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">active</text>
+<text x="428" y="211" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">BOOLEAN</text>
+<text x="100" y="233" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">gender</text>
+<text x="428" y="233" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="61" y="240" width="378" height="22" fill="#f8fafc"/>
+<text x="100" y="255" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">deceased_boolean</text>
+<text x="428" y="255" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">BOOLEAN</text>
+<text x="100" y="277" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">deceased_datetime</text>
+<text x="428" y="277" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="61" y="284" width="378" height="22" fill="#f8fafc"/>
+<text x="100" y="299" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">state</text>
+<text x="428" y="299" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="100" y="321" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">country</text>
+<text x="428" y="321" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="61" y="328" width="378" height="22" fill="#f8fafc"/>
+<text x="100" y="343" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">version_id</text>
+<text x="428" y="343" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="100" y="365" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">last_updated</text>
+<text x="428" y="365" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="61" y="372" width="378" height="22" fill="#f8fafc"/>
+<text x="100" y="387" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">mrn_hash</text>
+<text x="428" y="387" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="100" y="409" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">birth_year</text>
+<text x="428" y="409" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">INTEGER</text>
+<rect x="61" y="416" width="378" height="22" fill="#f8fafc"/>
+<text x="100" y="431" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">age_band</text>
+<text x="428" y="431" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="100" y="453" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">postal_code_prefix</text>
+<text x="428" y="453" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="61" y="460" width="378" height="22" fill="#f8fafc"/>
+<text x="100" y="475" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#64748b" font-style="italic">+ batch_id, source_file, resource_type</text>
+<text x="428" y="475" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8"></text>
+<text x="72" y="500" font-size="10.5" font-style="italic" fill="#64748b">partitioned by age_band</text>
+<rect x="560" y="140" width="380" height="282" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
+<rect x="560" y="140" width="380" height="34" rx="8" fill="#2563eb"/>
+<rect x="560" y="164" width="380" height="10" fill="#2563eb"/>
+<text x="572" y="162" font-size="14.5" font-weight="700" fill="#fff" font-family="ui-monospace, 'SF Mono', Consolas, monospace">encounter</text>
+<text x="928" y="162" text-anchor="end" font-size="10.5" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Consolas, monospace">iceberg.medical</text>
+<rect x="568" y="178" width="24" height="14" rx="3" fill="#f59e0b"/>
+<text x="580" y="189" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">PK</text>
+<text x="600" y="189" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">id</text>
+<text x="928" y="189" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="561" y="196" width="378" height="22" fill="#f8fafc"/>
+<text x="600" y="211" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">status</text>
+<text x="928" y="211" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="600" y="233" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">class_code</text>
+<text x="928" y="233" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="561" y="240" width="378" height="22" fill="#f8fafc"/>
+<text x="600" y="255" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">type_code</text>
+<text x="928" y="255" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="600" y="277" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">type_display</text>
+<text x="928" y="277" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="561" y="284" width="378" height="22" fill="#f8fafc"/>
+<rect x="568" y="288" width="24" height="14" rx="3" fill="#2563eb"/>
+<text x="580" y="299" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">FK</text>
+<text x="600" y="299" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">patient_id</text>
+<text x="928" y="299" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="600" y="321" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">period_start</text>
+<text x="928" y="321" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">TIMESTAMP</text>
+<rect x="561" y="328" width="378" height="22" fill="#f8fafc"/>
+<text x="600" y="343" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">period_end</text>
+<text x="928" y="343" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">TIMESTAMP</text>
+<text x="600" y="365" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">service_provider</text>
+<text x="928" y="365" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="561" y="372" width="378" height="22" fill="#f8fafc"/>
+<text x="600" y="387" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#64748b" font-style="italic">+ batch_id, source_file, resource_type</text>
+<text x="928" y="387" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8"></text>
+<text x="572" y="412" font-size="10.5" font-style="italic" fill="#64748b">not partitioned (demo scale)</text>
+<rect x="1060" y="140" width="440" height="392" rx="8" fill="#ffffff" stroke="#0d9488" stroke-width="1.6"/>
+<rect x="1060" y="140" width="440" height="34" rx="8" fill="#0d9488"/>
+<rect x="1060" y="164" width="440" height="10" fill="#0d9488"/>
+<text x="1072" y="162" font-size="14.5" font-weight="700" fill="#fff" font-family="ui-monospace, 'SF Mono', Consolas, monospace">observation</text>
+<text x="1488" y="162" text-anchor="end" font-size="10.5" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Consolas, monospace">iceberg.medical</text>
+<rect x="1068" y="178" width="24" height="14" rx="3" fill="#f59e0b"/>
+<text x="1080" y="189" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">PK</text>
+<text x="1100" y="189" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">id</text>
+<text x="1488" y="189" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="196" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="211" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">status</text>
+<text x="1488" y="211" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="1100" y="233" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">category_code</text>
+<text x="1488" y="233" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="240" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="255" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">category_display</text>
+<text x="1488" y="255" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="1100" y="277" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">code_system</text>
+<text x="1488" y="277" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="284" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="299" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">code</text>
+<text x="1488" y="299" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="1100" y="321" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">code_display</text>
+<text x="1488" y="321" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="328" width="438" height="22" fill="#f8fafc"/>
+<rect x="1068" y="332" width="24" height="14" rx="3" fill="#2563eb"/>
+<text x="1080" y="343" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">FK</text>
+<text x="1100" y="343" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">patient_id</text>
+<text x="1488" y="343" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1068" y="354" width="24" height="14" rx="3" fill="#2563eb"/>
+<text x="1080" y="365" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">FK</text>
+<text x="1100" y="365" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">encounter_id</text>
+<text x="1488" y="365" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="372" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="387" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">effective_datetime</text>
+<text x="1488" y="387" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">TIMESTAMP</text>
+<text x="1100" y="409" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">value_quantity_value</text>
+<text x="1488" y="409" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">DOUBLE</text>
+<rect x="1061" y="416" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="431" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">value_quantity_unit</text>
+<text x="1488" y="431" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="1100" y="453" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">value_string</text>
+<text x="1488" y="453" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="460" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="475" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">interpretation_code</text>
+<text x="1488" y="475" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="1100" y="497" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#64748b" font-style="italic">+ batch_id, source_file, resource_type</text>
+<text x="1488" y="497" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8"></text>
+<text x="1072" y="514" font-size="10.5" font-style="italic" fill="#64748b">partitioned by day(effective_datetime)</text>
+<rect x="1060" y="562" width="440" height="262" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="1.6"/>
+<rect x="1060" y="562" width="440" height="34" rx="8" fill="#7c3aed"/>
+<rect x="1060" y="586" width="440" height="10" fill="#7c3aed"/>
+<text x="1072" y="584" font-size="14.5" font-weight="700" fill="#fff" font-family="ui-monospace, 'SF Mono', Consolas, monospace">condition</text>
+<text x="1488" y="584" text-anchor="end" font-size="10.5" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Consolas, monospace">iceberg.medical</text>
+<rect x="1068" y="600" width="24" height="14" rx="3" fill="#f59e0b"/>
+<text x="1080" y="611" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">PK</text>
+<text x="1100" y="611" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">id</text>
+<text x="1488" y="611" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="618" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="633" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">clinical_status</text>
+<text x="1488" y="633" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="1100" y="655" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">verification_status</text>
+<text x="1488" y="655" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="662" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="677" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">code</text>
+<text x="1488" y="677" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="1100" y="699" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">code_display</text>
+<text x="1488" y="699" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="706" width="438" height="22" fill="#f8fafc"/>
+<rect x="1068" y="710" width="24" height="14" rx="3" fill="#2563eb"/>
+<text x="1080" y="721" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">FK</text>
+<text x="1100" y="721" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">patient_id</text>
+<text x="1488" y="721" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1068" y="732" width="24" height="14" rx="3" fill="#2563eb"/>
+<text x="1080" y="743" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">FK</text>
+<text x="1100" y="743" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">encounter_id</text>
+<text x="1488" y="743" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="750" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="765" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">onset_datetime</text>
+<text x="1488" y="765" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="1100" y="787" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">recorded_date</text>
+<text x="1488" y="787" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="794" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="809" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#64748b" font-style="italic">+ batch_id, source_file, resource_type</text>
+<text x="1488" y="809" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8"></text>
+<rect x="1060" y="854" width="440" height="262" rx="8" fill="#ffffff" stroke="#b45309" stroke-width="1.6"/>
+<rect x="1060" y="854" width="440" height="34" rx="8" fill="#b45309"/>
+<rect x="1060" y="878" width="440" height="10" fill="#b45309"/>
+<text x="1072" y="876" font-size="14.5" font-weight="700" fill="#fff" font-family="ui-monospace, 'SF Mono', Consolas, monospace">medication_request</text>
+<text x="1488" y="876" text-anchor="end" font-size="10.5" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Consolas, monospace">iceberg.medical</text>
+<rect x="1068" y="892" width="24" height="14" rx="3" fill="#f59e0b"/>
+<text x="1080" y="903" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">PK</text>
+<text x="1100" y="903" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">id</text>
+<text x="1488" y="903" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="910" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="925" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">status</text>
+<text x="1488" y="925" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="1100" y="947" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">intent</text>
+<text x="1488" y="947" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="954" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="969" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">medication_code</text>
+<text x="1488" y="969" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="1100" y="991" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">medication_display</text>
+<text x="1488" y="991" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="998" width="438" height="22" fill="#f8fafc"/>
+<rect x="1068" y="1002" width="24" height="14" rx="3" fill="#2563eb"/>
+<text x="1080" y="1013" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">FK</text>
+<text x="1100" y="1013" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">patient_id</text>
+<text x="1488" y="1013" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1068" y="1024" width="24" height="14" rx="3" fill="#2563eb"/>
+<text x="1080" y="1035" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">FK</text>
+<text x="1100" y="1035" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">encounter_id</text>
+<text x="1488" y="1035" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="1042" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="1057" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">authored_on</text>
+<text x="1488" y="1057" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="1100" y="1079" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">dosage_text</text>
+<text x="1488" y="1079" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="1061" y="1086" width="438" height="22" fill="#f8fafc"/>
+<text x="1100" y="1101" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#64748b" font-style="italic">+ batch_id, source_file, resource_type</text>
+<text x="1488" y="1101" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8"></text>
+<rect x="60" y="590" width="380" height="392" rx="8" fill="#ffffff" stroke="#64748b" stroke-width="1.6"/>
+<rect x="60" y="590" width="380" height="34" rx="8" fill="#64748b"/>
+<rect x="60" y="614" width="380" height="10" fill="#64748b"/>
+<text x="72" y="612" font-size="14.5" font-weight="700" fill="#fff" font-family="ui-monospace, 'SF Mono', Consolas, monospace">dicom_metadata</text>
+<text x="428" y="612" text-anchor="end" font-size="10.5" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Consolas, monospace">iceberg.medical</text>
+<rect x="68" y="628" width="24" height="14" rx="3" fill="#f59e0b"/>
+<text x="80" y="639" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">PK</text>
+<text x="100" y="639" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">sop_instance_uid</text>
+<text x="428" y="639" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="61" y="646" width="378" height="22" fill="#f8fafc"/>
+<text x="100" y="661" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">series_instance_uid</text>
+<text x="428" y="661" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="100" y="683" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">study_instance_uid</text>
+<text x="428" y="683" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="61" y="690" width="378" height="22" fill="#f8fafc"/>
+<rect x="68" y="694" width="24" height="14" rx="3" fill="#2563eb"/>
+<text x="80" y="705" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">FK</text>
+<text x="100" y="705" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">patient_id</text>
+<text x="428" y="705" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="100" y="727" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">modality</text>
+<text x="428" y="727" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="61" y="734" width="378" height="22" fill="#f8fafc"/>
+<text x="100" y="749" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">body_part_examined</text>
+<text x="428" y="749" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="100" y="771" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">study_date</text>
+<text x="428" y="771" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">DATE</text>
+<rect x="61" y="778" width="378" height="22" fill="#f8fafc"/>
+<text x="100" y="793" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">manufacturer</text>
+<text x="428" y="793" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="100" y="815" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">institution_name</text>
+<text x="428" y="815" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<rect x="61" y="822" width="378" height="22" fill="#f8fafc"/>
+<text x="100" y="837" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">rows</text>
+<text x="428" y="837" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">INTEGER</text>
+<text x="100" y="859" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">columns</text>
+<text x="428" y="859" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">INTEGER</text>
+<rect x="61" y="866" width="378" height="22" fill="#f8fafc"/>
+<text x="100" y="881" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">pixel_spacing</text>
+<text x="428" y="881" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="100" y="903" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">slice_thickness</text>
+<text x="428" y="903" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">DOUBLE</text>
+<rect x="61" y="910" width="378" height="22" fill="#f8fafc"/>
+<text x="100" y="925" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">patient_birth_year</text>
+<text x="428" y="925" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">INTEGER</text>
+<text x="100" y="947" font-size="12" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#0f172a">batch_id</text>
+<text x="428" y="947" text-anchor="end" font-size="11" font-family="ui-monospace, 'SF Mono', Consolas, monospace" fill="#94a3b8">VARCHAR</text>
+<text x="72" y="972" font-size="10.5" font-style="italic" fill="#64748b">partitioned by modality  |  metadata only, no pixel data</text>
+<polyline points="440,185.0 500,185.0 500,295.0 560,295.0" fill="none" stroke="#334155" stroke-width="2"/>
+<line x1="452" y1="179.0" x2="452" y2="191.0" stroke="#334155" stroke-width="2"/>
+<path d="M 548 295.0 L 560 288.0 M 548 295.0 L 560 295.0 M 548 295.0 L 560 302.0" stroke="#334155" stroke-width="2" fill="none"/>
+<polyline points="250.0,140 250.0,104 1540,104 1540,1009.0" fill="none" stroke="#334155" stroke-width="2"/>
+<line x1="244.0" y1="128" x2="256.0" y2="128" stroke="#334155" stroke-width="2"/>
+<polyline points="1540,339.0 1500,339.0" fill="none" stroke="#334155" stroke-width="2"/>
+<path d="M 1512 339.0 L 1500 332.0 M 1512 339.0 L 1500 339.0 M 1512 339.0 L 1500 346.0" stroke="#334155" stroke-width="2" fill="none"/>
+<polyline points="1540,717.0 1500,717.0" fill="none" stroke="#334155" stroke-width="2"/>
+<path d="M 1512 717.0 L 1500 710.0 M 1512 717.0 L 1500 717.0 M 1512 717.0 L 1500 724.0" stroke="#334155" stroke-width="2" fill="none"/>
+<polyline points="1540,1009.0 1500,1009.0" fill="none" stroke="#334155" stroke-width="2"/>
+<path d="M 1512 1009.0 L 1500 1002.0 M 1512 1009.0 L 1500 1009.0 M 1512 1009.0 L 1500 1016.0" stroke="#334155" stroke-width="2" fill="none"/>
+<polyline points="940,185.0 1000,185.0 1000,1031.0" fill="none" stroke="#334155" stroke-width="2"/>
+<line x1="952" y1="179.0" x2="952" y2="191.0" stroke="#334155" stroke-width="2"/>
+<polyline points="1000,361.0 1060,361.0" fill="none" stroke="#334155" stroke-width="2"/>
+<path d="M 1048 361.0 L 1060 354.0 M 1048 361.0 L 1060 361.0 M 1048 361.0 L 1060 368.0" stroke="#334155" stroke-width="2" fill="none"/>
+<polyline points="1000,739.0 1060,739.0" fill="none" stroke="#334155" stroke-width="2"/>
+<path d="M 1048 739.0 L 1060 732.0 M 1048 739.0 L 1060 739.0 M 1048 739.0 L 1060 746.0" stroke="#334155" stroke-width="2" fill="none"/>
+<polyline points="1000,1031.0 1060,1031.0" fill="none" stroke="#334155" stroke-width="2"/>
+<path d="M 1048 1031.0 L 1060 1024.0 M 1048 1031.0 L 1060 1031.0 M 1048 1031.0 L 1060 1038.0" stroke="#334155" stroke-width="2" fill="none"/>
+<polyline points="250.0,590 250.0,510" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6,5"/>
+<text x="260.0" y="568" font-size="11" fill="#64748b">dicom_metadata.patient_id = patient.mrn_hash</text>
+<text x="260.0" y="582" font-size="11" fill="#64748b">(same salted hash; pipeline-enforced, see FK)</text>
+<text x="495.0" y="177.0" text-anchor="middle" font-size="11" fill="#475569">1 : N</text>
+<text x="994" y="175.0" text-anchor="end" font-size="11" fill="#475569">1 : N</text>
+<text x="1532" y="96" text-anchor="end" font-size="11" fill="#475569">patient 1 : N (observation, condition, medication_request)</text>
+<rect x="560" y="470" width="380" height="350" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.4"/>
+<text x="574" y="496" font-size="14" font-weight="700" fill="#92400e">Design notes</text>
+<text x="574" y="520" font-size="12" fill="#451a03">Grain: one row per FHIR resource id.</text>
+<text x="574" y="537" font-size="12" fill="#451a03">Join key: patient.id (a FHIR resource id,</text>
+<text x="574" y="554" font-size="12" fill="#451a03">not PHI on its own).</text>
+<text x="574" y="571" font-size="12" fill="#451a03"></text>
+<text x="574" y="588" font-size="12" fill="#451a03">Iceberg does not enforce foreign keys.</text>
+<text x="574" y="605" font-size="12" fill="#451a03">Integrity is enforced by the pipeline:</text>
+<text x="574" y="622" font-size="12" fill="#451a03">check_referential_integrity, and rows with</text>
+<text x="574" y="639" font-size="12" fill="#451a03">a dangling patient_id are quarantined</text>
+<text x="574" y="656" font-size="12" fill="#451a03">before the Silver write.</text>
+<text x="574" y="673" font-size="12" fill="#451a03"></text>
+<text x="574" y="690" font-size="12" fill="#451a03">PHI never reaches Silver: names, SSN,</text>
+<text x="574" y="707" font-size="12" fill="#451a03">phone, email, address and exact birth</text>
+<text x="574" y="724" font-size="12" fill="#451a03">date are dropped/generalized. MRN is</text>
+<text x="574" y="741" font-size="12" fill="#451a03">stored only as a salted SHA-256 hash.</text>
+<text x="574" y="758" font-size="12" fill="#451a03"></text>
+<text x="574" y="775" font-size="12" fill="#451a03">encounter_id on observation, condition</text>
+<text x="574" y="792" font-size="12" fill="#451a03">and medication_request links an event</text>
+<text x="574" y="809" font-size="12" fill="#451a03">to the visit it occurred in.</text>
+<rect x="60" y="1040" width="380" height="94" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+<text x="74" y="1064" font-size="13.5" font-weight="700" fill="#334155">Legend</text>
+<rect x="74" y="1076" width="24" height="14" rx="3" fill="#f59e0b"/><text x="86" y="1087" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">PK</text><text x="106" y="1088" font-size="12" fill="#334155">primary key</text>
+<rect x="210" y="1076" width="24" height="14" rx="3" fill="#2563eb"/><text x="222" y="1087" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">FK</text><text x="242" y="1088" font-size="12" fill="#334155">foreign key (pipeline-enforced)</text>
+<line x1="74" y1="1110" x2="110" y2="1110" stroke="#334155" stroke-width="2"/>
+<line x1="82" y1="1104" x2="82" y2="1116" stroke="#334155" stroke-width="2"/>
+<path d="M 98 1110 L 110 1103 M 98 1110 L 110 1110 M 98 1110 L 110 1117" stroke="#334155" stroke-width="2" fill="none"/>
+<text x="122" y="1114" font-size="12" fill="#334155">one-to-many (one parent, many children)</text>
+<text x="1600" y="1186" text-anchor="end" font-size="11" fill="#94a3b8">medical-lakehouse-platform &#183; erd.svg</text>
+</svg>

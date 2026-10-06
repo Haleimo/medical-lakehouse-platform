@@ -76,7 +76,7 @@ the quality-gate/quarantine branches) are in `docs/diagrams/`:
 ![ETL / data-flow architecture](docs/diagrams/etl_architecture.svg)
 
 Data model (ERD for the Silver layer, and Gold marts with Silver -> Gold lineage),
-plus the written design in `docs/SYSTEM_DESIGN.md`:
+plus the comprehensive platform documentation in **[docs/Medical-Lakehouse-Platform-Documentation.pdf](file:///home/haleemo/Downloads/medical-lakehouse-platform/docs/Medical-Lakehouse-Platform-Documentation.pdf)** and written design in **[docs/SYSTEM_DESIGN.md](file:///home/haleemo/Downloads/medical-lakehouse-platform/docs/SYSTEM_DESIGN.md)**:
 
 ![ERD - Silver layer](docs/diagrams/erd.svg)
 

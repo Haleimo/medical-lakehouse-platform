@@ -76,7 +76,7 @@ the quality-gate/quarantine branches) are in `docs/diagrams/`:
 ![ETL / data-flow architecture](docs/diagrams/etl_architecture.svg)
 
 Data model (ERD for the Silver layer, and Gold marts with Silver -> Gold lineage),
-plus the comprehensive platform documentation in **[docs/Medical-Lakehouse-Platform-Documentation.pdf](file:///home/haleemo/Downloads/medical-lakehouse-platform/docs/Medical-Lakehouse-Platform-Documentation.pdf)** and written design in **[docs/SYSTEM_DESIGN.md](file:///home/haleemo/Downloads/medical-lakehouse-platform/docs/SYSTEM_DESIGN.md)**:
+plus the comprehensive platform documentation in **[docs/Medical-Lakehouse-Platform-Documentation.pdf](docs/Medical-Lakehouse-Platform-Documentation.pdf)** and written design in **[docs/SYSTEM_DESIGN.md](docs/SYSTEM_DESIGN.md)**:
 
 ![ERD - Silver layer](docs/diagrams/erd.svg)
 
@@ -596,5 +596,5 @@ helm install garage ./charts/garage -f charts/garage/values.yaml \
 | **Abdelhaleem Mohammed** | Lead DevOps & GitOps Platform Engineer | [@Haleimo](https://github.com/Haleimo) | Kubernetes IaC, GitHub Actions, GitLab CI Container Registry, ArgoCD Sync Waves & Airflow GitSync Handoff |
 | **Mahmoud Saad** | Lead Data Engineer & Pipeline Architect | [@Mahmoud2saad](https://github.com/Mahmoud2saad) | FHIR/DICOM Ingestion, PHI De-identification, Airflow DAG, PySpark Iceberg Jobs & Trino Analytics SQL |
 
-For full itemized contribution details and DataOps collaboration architecture, see **[AUTHORS.md](file:///home/haleemo/Downloads/medical-lakehouse-platform/AUTHORS.md)** and **[docs/DATAOPS_COLLABORATION.md](file:///home/haleemo/Downloads/medical-lakehouse-platform/docs/DATAOPS_COLLABORATION.md)**.
+For full itemized contribution details and DataOps collaboration architecture, see **[AUTHORS.md](AUTHORS.md)** and **[docs/DATAOPS_COLLABORATION.md](docs/DATAOPS_COLLABORATION.md)**.
 

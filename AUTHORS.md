@@ -36,4 +36,4 @@ This project, **Medical Data Lakehouse Platform**, is engineered as a collaborat
 
 ## 🤝 Handoff & Collaboration Model
 
-For detailed documentation on how the **DevOps Engineer** and **Data Engineer** collaborate via automated GitSync and CI/CD quality gates, see **[docs/DATAOPS_COLLABORATION.md](file:///home/haleemo/Downloads/medical-lakehouse-platform/docs/DATAOPS_COLLABORATION.md)** and the full platform documentation PDF at **[docs/Medical-Lakehouse-Platform-Documentation.pdf](file:///home/haleemo/Downloads/medical-lakehouse-platform/docs/Medical-Lakehouse-Platform-Documentation.pdf)**.
+For detailed documentation on how the **DevOps Engineer** and **Data Engineer** collaborate via automated GitSync and CI/CD quality gates, see **[docs/DATAOPS_COLLABORATION.md](docs/DATAOPS_COLLABORATION.md)** and the full platform documentation PDF at **[docs/Medical-Lakehouse-Platform-Documentation.pdf](docs/Medical-Lakehouse-Platform-Documentation.pdf)**.

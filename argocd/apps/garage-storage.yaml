@@ -11,7 +11,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/<your-org>/medical-lakehouse-platform.git'
+    repoURL: 'https://github.com/Haleimo/medical-lakehouse-platform.git'
     targetRevision: HEAD
     path: charts/garage
     helm:

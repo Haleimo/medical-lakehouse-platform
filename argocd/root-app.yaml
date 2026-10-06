@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     # Set repoURL to your GitHub or GitLab GitOps repository URL
-    repoURL: 'https://github.com/<your-org>/medical-lakehouse-platform.git'
+    repoURL: 'https://github.com/Haleimo/medical-lakehouse-platform.git'
     targetRevision: HEAD
     path: argocd/apps
   destination:

@@ -19,13 +19,13 @@ spec:
         executor: "LocalExecutor"
         images:
           airflow:
-            repository: registry.gitlab.com/<your-org>/medical-lakehouse-platform/airflow
+            repository: registry.gitlab.com/abdelhaleemmmohammed/medical-lakehouse-platform/airflow
             tag: latest
             pullPolicy: Always
         dags:
           gitSync:
             enabled: true
-            repo: 'https://github.com/<your-org>/medical-lakehouse-platform.git'
+            repo: 'https://github.com/Haleimo/medical-lakehouse-platform.git'
             branch: main
             subPath: "dags"
             wait: 60

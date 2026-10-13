@@ -12,6 +12,7 @@ This replaces the old placeholder `print("Extracting raw FHIR bundles...")`
 implementation with something that actually reads and writes data, is unit
 testable, and is called by both the Airflow DAG and pytest.
 """
+
 from __future__ import annotations
 
 import json
@@ -65,7 +66,9 @@ def ingest_file(path: Path, batch_id: str, storage: StorageClient) -> tuple[list
         raw_text = path.read_text(encoding="utf-8")
         payload = json.loads(raw_text)
     except (OSError, json.JSONDecodeError) as exc:
-        logger.error("failed to read/parse source file", extra={"fields": {"source_file": str(path), "error": str(exc)}})
+        logger.error(
+            "failed to read/parse source file", extra={"fields": {"source_file": str(path), "error": str(exc)}}
+        )
         record = {
             "source_file": str(path),
             "record_id": None,

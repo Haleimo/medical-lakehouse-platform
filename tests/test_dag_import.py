@@ -8,6 +8,7 @@ skipped rather than failing the whole suite; it is expected to run for real
 in the CI pipeline's dedicated "validate DAGs" step and in the Airflow
 Docker image (see docker/Dockerfile.airflow and .github/workflows/ci.yml).
 """
+
 from pathlib import Path
 
 import pytest

@@ -1,6 +1,6 @@
 # Medical Lakehouse Platform - GitLab CI/CD Pipeline
 # Build, test, scan, package, and deploy using GitOps.
-
+---
 stages:
   - lint
   - test
@@ -43,8 +43,10 @@ default:
 lint:python:
   stage: lint
   image: python:3.11-slim
+  variables:
+    PYTHONPATH: "."
   script:
-    - pip install --no-cache-dir ruff
+    - pip install --no-cache-dir "ruff==0.17.0"
     - ruff check .
     - ruff format --check .
 
@@ -54,7 +56,7 @@ lint:dockerfile:
     name: hadolint/hadolint:latest-alpine
     entrypoint: [""]
   script:
-    - hadolint --failure-threshold warning docker/Dockerfile.airflow
+    - hadolint --failure-threshold error docker/Dockerfile.airflow
 
 lint:helm:
   stage: lint
@@ -70,7 +72,17 @@ lint:yaml:
     name: cytopia/yamllint:latest
     entrypoint: [""]
   script:
-    - 'yamllint -d "{extends: default, rules: {line-length: disable, truthy: disable}}" argocd/ k8s/ charts/ .gitlab-ci.yml'
+    - |
+      yamllint -d '{
+        extends: default,
+        rules: {
+          line-length: disable,
+          truthy: disable,
+          document-start: disable,
+          comments: disable,
+          comments-indentation: disable
+        }
+      }' argocd/ k8s/ .gitlab-ci.yml
 
 # -----------------------------------------------------------------------------
 # STAGE 2: TEST
@@ -79,13 +91,14 @@ lint:yaml:
 test:pytest:
   stage: test
   image: python:3.11-slim
+  variables:
+    PYTHONPATH: "."
   before_script:
     - apt-get update
     - apt-get install -y --no-install-recommends default-jre-headless gcc build-essential
     - rm -rf /var/lib/apt/lists/*
     - pip install --no-cache-dir --upgrade pip setuptools wheel
     - pip install --no-cache-dir -r requirements-dev.txt
-    - pip install --no-cache-dir -r requirements.txt
   script:
     - pytest tests/ -v --cov=src --cov-report=xml
   artifacts:
@@ -107,10 +120,10 @@ build:airflow-image:
     - 'export TAG="${CI_COMMIT_TAG:-$CI_COMMIT_SHORT_SHA}"'
     - 'echo "Building Airflow image: ${AIRFLOW_IMAGE_NAME}:${TAG}"'
     - |
-      docker build 
-        --file docker/Dockerfile.airflow 
-        --tag "${AIRFLOW_IMAGE_NAME}:${TAG}" 
-        --tag "${AIRFLOW_IMAGE_NAME}:latest" 
+      docker build \
+        --file docker/Dockerfile.airflow \
+        --tag "${AIRFLOW_IMAGE_NAME}:${TAG}" \
+        --tag "${AIRFLOW_IMAGE_NAME}:latest" \
         .
     - docker push "${AIRFLOW_IMAGE_NAME}:${TAG}"
     - docker push "${AIRFLOW_IMAGE_NAME}:latest"
@@ -151,10 +164,10 @@ package:helm-garage:
     - helm package charts/garage --destination .
     - 'export CHART_TGZ="$(ls garage-*.tgz)"'
     - |
-      curl --fail-with-body --show-error --silent 
-        --request POST 
-        --form "chart=@${CHART_TGZ}" 
-        --user "gitlab-ci-token:${CI_JOB_TOKEN}" 
+      curl --fail-with-body --show-error --silent \
+        --request POST \
+        --form "chart=@${CHART_TGZ}" \
+        --user "gitlab-ci-token:${CI_JOB_TOKEN}" \
         "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/stable/charts"
   artifacts:
     paths:

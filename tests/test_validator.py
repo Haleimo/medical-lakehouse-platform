@@ -20,10 +20,14 @@ def test_validate_resource_rejects_missing_required_field():
 
 
 def test_validate_resource_rejects_invalid_status():
-    result = validate_resource({
-        "resourceType": "Observation", "id": "obs-1", "status": "bogus",
-        "code": {"coding": [{"code": "1"}]},
-    })
+    result = validate_resource(
+        {
+            "resourceType": "Observation",
+            "id": "obs-1",
+            "status": "bogus",
+            "code": {"coding": [{"code": "1"}]},
+        }
+    )
     assert not result.is_valid
 
 

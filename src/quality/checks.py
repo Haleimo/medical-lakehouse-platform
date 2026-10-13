@@ -11,6 +11,7 @@ Design goals:
     threshold is breached, which is what makes the Airflow task actually
     fail the DAG run instead of silently continuing on bad data.
 """
+
 from __future__ import annotations
 
 from collections import Counter
@@ -79,9 +80,7 @@ def find_missing_required(rows: list[dict], required_fields: list[str], id_field
         for f in required_fields:
             if row.get(f) in (None, ""):
                 rid = row.get(id_field)
-                issues.append(
-                    RowIssue(i, rid, f, f"row {i} (id={rid}): required field '{f}' is null/empty")
-                )
+                issues.append(RowIssue(i, rid, f, f"row {i} (id={rid}): required field '{f}' is null/empty"))
     return issues
 
 

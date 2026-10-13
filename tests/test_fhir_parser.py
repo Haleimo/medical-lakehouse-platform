@@ -90,8 +90,11 @@ def _obs(system, code="X1"):
     if system:
         coding["system"] = system
     return {
-        "resourceType": "Observation", "id": "o1", "status": "final",
-        "code": {"coding": [coding]}, "subject": {"reference": "Patient/p1"},
+        "resourceType": "Observation",
+        "id": "o1",
+        "status": "final",
+        "code": {"coding": [coding]},
+        "subject": {"reference": "Patient/p1"},
         "valueQuantity": {"value": 5, "unit": "u"},
     }
 

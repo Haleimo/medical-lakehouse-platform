@@ -23,6 +23,7 @@ hashed with the same salted SHA-256 as `patient.mrn_hash`, so imaging metadata
 joins to the de-identified Patient table on `patient_id = mrn_hash`, and the
 Spark job enforces that link (rows that don't match are quarantined).
 """
+
 from __future__ import annotations
 
 import json
@@ -109,7 +110,10 @@ def run_dicom_ingestion(source: str | Path, batch_id: str | None = None) -> Inge
             payload = json.loads(file_path.read_text(encoding="utf-8"))
             records = payload if isinstance(payload, list) else [payload]
         except (OSError, json.JSONDecodeError) as exc:
-            logger.error("failed to read DICOM metadata file", extra={"fields": {"source_file": str(file_path), "error": str(exc)}})
+            logger.error(
+                "failed to read DICOM metadata file",
+                extra={"fields": {"source_file": str(file_path), "error": str(exc)}},
+            )
             _, dest = write_quarantine_record(
                 storage,
                 batch_id=batch_id,
@@ -135,6 +139,11 @@ def run_dicom_ingestion(source: str | Path, batch_id: str | None = None) -> Inge
         result.metrics.rejected_records += len(rejected)
 
     log_with_fields(
-        logger, 20, "dicom metadata ingestion complete", batch_id=batch_id, files_processed=len(files), **result.metrics.as_dict()
+        logger,
+        20,
+        "dicom metadata ingestion complete",
+        batch_id=batch_id,
+        files_processed=len(files),
+        **result.metrics.as_dict(),
     )
     return result

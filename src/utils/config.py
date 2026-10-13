@@ -12,6 +12,7 @@ Usage:
     settings = get_settings()
     settings.s3_endpoint
 """
+
 from __future__ import annotations
 
 import os
@@ -60,7 +61,9 @@ class Settings:
     # --- Local filesystem fallback (used when RUN_MODE=local so the whole
     # pipeline can run on a laptop with no S3/Spark cluster available) ---
     run_mode: str = field(default_factory=lambda: _env("RUN_MODE", "local"))
-    local_data_root: str = field(default_factory=lambda: _env("LOCAL_DATA_ROOT", str(Path(__file__).resolve().parents[2] / "data")))
+    local_data_root: str = field(
+        default_factory=lambda: _env("LOCAL_DATA_ROOT", str(Path(__file__).resolve().parents[2] / "data"))
+    )
 
     # --- Data quality thresholds ---
     max_invalid_ratio: float = field(default_factory=lambda: float(_env("MAX_INVALID_RATIO", "0.2")))

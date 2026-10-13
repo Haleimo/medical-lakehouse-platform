@@ -6,9 +6,13 @@ from src.ingestion.dicom_ingest import run_dicom_ingestion, validate_dicom_recor
 SAMPLE_DIR = Path(__file__).resolve().parents[1] / "data" / "sample" / "dicom"
 
 VALID = {
-    "sop_instance_uid": "1.2.3", "study_instance_uid": "1.2", "modality": "CT",
-    "patient_id": "MRN-1", "study_date": "2026-01-05",
-    "patient_name": "Doe^Jane", "patient_birth_date": "19800101",
+    "sop_instance_uid": "1.2.3",
+    "study_instance_uid": "1.2",
+    "modality": "CT",
+    "patient_id": "MRN-1",
+    "study_date": "2026-01-05",
+    "patient_name": "Doe^Jane",
+    "patient_birth_date": "19800101",
 }
 
 
@@ -51,7 +55,14 @@ def test_ingestion_rejects_and_quarantines_invalid_records(tmp_settings, tmp_pat
 
     for path in result.quarantine_paths:  # every rejection is persisted with full metadata
         rec = json.loads(Path(path).read_text())
-        assert {"source_file", "record_id", "error_type", "error_message", "ingestion_timestamp", "batch_id"} <= rec.keys()
+        assert {
+            "source_file",
+            "record_id",
+            "error_type",
+            "error_message",
+            "ingestion_timestamp",
+            "batch_id",
+        } <= rec.keys()
         assert rec["error_type"] == "ValidationError"
 
 

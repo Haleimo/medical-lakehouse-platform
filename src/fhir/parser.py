@@ -10,6 +10,7 @@ the rest of the pipeline never has to deal with nested JSON again.
 These functions are pure and side-effect free, which is what makes them
 independently unit-testable (see tests/test_fhir_parser.py).
 """
+
 from __future__ import annotations
 
 from typing import Any

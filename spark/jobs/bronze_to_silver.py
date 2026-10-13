@@ -28,6 +28,7 @@ Output target depends on RUN_MODE:
 In cluster mode, parent keys already in Silver from earlier batches also count
 when checking references (an Observation may arrive after its Patient).
 """
+
 from __future__ import annotations
 
 import argparse
@@ -344,7 +345,9 @@ def write_silver(spark, tables: dict[str, list[dict]], batch_id: str) -> dict[st
             full_table = f"{settings.iceberg_catalog_name}.medical.{table_name}"
             mode = upsert_iceberg_table(spark, df, full_table, table_name, key=TABLE_KEYS[table_name])
         written[table_name] = len(rows)
-        log_with_fields(logger, 20, "wrote silver table", table=table_name, row_count=len(rows), batch_id=batch_id, mode=mode)
+        log_with_fields(
+            logger, 20, "wrote silver table", table=table_name, row_count=len(rows), batch_id=batch_id, mode=mode
+        )
     return written
 
 
@@ -367,7 +370,12 @@ def run(batch_id: str) -> dict:
     fhir_records = load_bronze_records(bronze_dir)
     dicom_records = load_bronze_dicom(bronze_dir)
     log_with_fields(
-        logger, 20, "loaded bronze records", batch_id=batch_id, fhir_records=len(fhir_records), dicom_records=len(dicom_records)
+        logger,
+        20,
+        "loaded bronze records",
+        batch_id=batch_id,
+        fhir_records=len(fhir_records),
+        dicom_records=len(dicom_records),
     )
 
     tables, duplicates = transform_batch(fhir_records, dicom_records)

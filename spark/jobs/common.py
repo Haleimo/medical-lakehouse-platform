@@ -16,6 +16,7 @@ Untested against a live Iceberg/Nessie cluster in this repo's sandbox -- the
 sequencing is unit tested with mocks (tests/test_iceberg_io.py) and the type
 casts are tested locally, but the MERGE itself needs a real catalog.
 """
+
 from __future__ import annotations
 
 import math

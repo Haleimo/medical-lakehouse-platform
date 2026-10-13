@@ -22,6 +22,7 @@ Design notes:
     schedule) comes from Airflow Variables / environment variables, never
     hardcoded here.
 """
+
 from __future__ import annotations
 
 import os
@@ -61,12 +62,8 @@ DEFAULT_ARGS = {
 # Schedule is configurable via an Airflow Variable / env var so the same DAG
 # definition works for a demo (manual trigger) and a "production-like" hourly run.
 SCHEDULE = os.environ.get("MEDICAL_PIPELINE_SCHEDULE", "@daily")
-SAMPLE_SOURCE_DIR = os.environ.get(
-    "FHIR_SOURCE_DIR", os.path.join(REPO_ROOT, "data", "sample", "fhir")
-)
-DICOM_SOURCE_DIR = os.environ.get(
-    "DICOM_SOURCE_DIR", os.path.join(REPO_ROOT, "data", "sample", "dicom")
-)
+SAMPLE_SOURCE_DIR = os.environ.get("FHIR_SOURCE_DIR", os.path.join(REPO_ROOT, "data", "sample", "fhir"))
+DICOM_SOURCE_DIR = os.environ.get("DICOM_SOURCE_DIR", os.path.join(REPO_ROOT, "data", "sample", "dicom"))
 
 
 def _task_extract_and_validate(**context) -> str:
@@ -238,7 +235,6 @@ with DAG(
     max_active_runs=1,
     tags=["medical", "fhir", "lakehouse", "iceberg"],
 ) as dag:
-
     extract_validate_fhir = PythonOperator(
         task_id="extract_validate_fhir",
         python_callable=_task_extract_and_validate,

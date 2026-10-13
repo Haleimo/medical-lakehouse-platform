@@ -13,6 +13,7 @@ Semantics
   * At portfolio data volumes the aggregation runs in pandas after a Spark read;
     at real volumes it would become native Spark SQL (same grain and columns).
 """
+
 from __future__ import annotations
 
 import argparse
@@ -57,13 +58,27 @@ def _gold_schemas():
 
     return {
         "patient_summary": StructType(
-            [s("patient_id"), s("gender"), s("age_band"), StructField("birth_year", IntegerType(), True),
-             big("encounter_count"), big("condition_count"), big("medication_count")]
+            [
+                s("patient_id"),
+                s("gender"),
+                s("age_band"),
+                StructField("birth_year", IntegerType(), True),
+                big("encounter_count"),
+                big("condition_count"),
+                big("medication_count"),
+            ]
         ),
         "observation_daily_summary": StructType(
-            [StructField("observation_date", DateType(), True), s("code_system"), s("code"), s("code_display"),
-             big("observation_count"), StructField("avg_value", DoubleType(), True),
-             StructField("min_value", DoubleType(), True), StructField("max_value", DoubleType(), True)]
+            [
+                StructField("observation_date", DateType(), True),
+                s("code_system"),
+                s("code"),
+                s("code_display"),
+                big("observation_count"),
+                StructField("avg_value", DoubleType(), True),
+                StructField("min_value", DoubleType(), True),
+                StructField("max_value", DoubleType(), True),
+            ]
         ),
         "encounter_summary": StructType([s("class_code"), s("status"), big("encounter_count")]),
         "condition_summary": StructType([s("code"), s("code_display"), big("condition_count"), big("patient_count")]),
@@ -93,7 +108,9 @@ def _write_gold_table(spark, df: pd.DataFrame, batch_id: str, table_name: str) -
         sdf.write.mode("overwrite").parquet(str(Path(settings.local_data_root) / "gold" / batch_id / table_name))
         mode = "parquet"
     else:
-        mode = replace_iceberg_table(spark, sdf, f"{settings.iceberg_catalog_name}.medical_gold.{table_name}", table_name)
+        mode = replace_iceberg_table(
+            spark, sdf, f"{settings.iceberg_catalog_name}.medical_gold.{table_name}", table_name
+        )
     log_with_fields(logger, 20, "wrote gold table", table=table_name, row_count=len(df), batch_id=batch_id, mode=mode)
 
 
@@ -103,11 +120,14 @@ def run(batch_id: str) -> dict:
     try:
         if not settings.is_local:
             ensure_namespace(spark, settings.iceberg_catalog_name, "medical_gold")
+
         def read(table):
             return _read_silver_table(spark, batch_id, table)
 
         gold_tables = {
-            "patient_summary": patient_summary(read("patient"), read("encounter"), read("condition"), read("medication_request")),
+            "patient_summary": patient_summary(
+                read("patient"), read("encounter"), read("condition"), read("medication_request")
+            ),
             "observation_daily_summary": observation_daily_summary(read("observation")),
             "encounter_summary": encounter_summary(read("encounter")),
             "condition_summary": condition_summary(read("condition")),

@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: garage-config
+  namespace: {{ .Values.global.namespace | default "data-lake" }}
+data:
+  # NOTE: rpc_secret and admin_token are intentionally NOT in this file --
+  # ConfigMaps are not encrypted at rest by default and are visible to
+  # anyone who can `kubectl get configmap`. Garage reads both from the
+  # GARAGE_RPC_SECRET / GARAGE_ADMIN_TOKEN environment variables when they
+  # are not present in garage.toml (see deployment-garage.yaml, which wires
+  # those env vars from the `garage-credentials` Secret).
+  garage.toml: |
+    metadata_dir = "/var/lib/garage/meta"
+    data_dir = "/var/lib/garage/data"
+    db_engine = "sqlite"
+
+    replication_factor = 1
+
+    [rpc]
+    rpc_bind_addr = "[::]:{{ .Values.garage.service.rpcPort }}"
+
+    [s3_api]
+    s3_region = "us-east-1"
+    api_bind_addr = "[::]:{{ .Values.garage.service.s3Port }}"
+    root_domain = ".s3.dlake.local"
+
+    [s3_web]
+    bind_addr = "[::]:{{ .Values.garage.service.webPort }}"
+
+    [admin]
+    api_bind_addr = "[::]:{{ .Values.garage.service.adminPort }}"

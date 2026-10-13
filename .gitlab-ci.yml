@@ -1,0 +1,158 @@
+# Medical Lakehouse Platform - GitLab CI/CD Pipeline
+# Standard enterprise GitOps build, scan, package, and deploy pipeline
+
+stages:
+  - lint
+  - test
+  - build
+  - scan
+  - package
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+  AIRFLOW_IMAGE_NAME: "$CI_REGISTRY_IMAGE/airflow"
+  GARAGE_CHART_NAME: "garage"
+
+# Default configuration for all jobs
+default:
+  interruptible: true
+
+.docker-in-docker:
+  image: docker:25.0.3
+  services:
+    - docker:25.0.3-dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+
+# -----------------------------------------------------------------------------
+# STAGE 1: LINT
+# -----------------------------------------------------------------------------
+lint:python:
+  stage: lint
+  image: python:3.11-slim
+  script:
+    - pip install ruff
+    - ruff check .
+    - ruff format --check .
+
+lint:dockerfile:
+  stage: lint
+  image: hadolint/hadolint:latest-alpine
+  script:
+    - hadolint docker/Dockerfile.airflow
+
+lint:helm:
+  stage: lint
+  image: alpine/helm:3.14.0
+  script:
+    - helm lint charts/garage
+
+lint:yaml:
+  stage: lint
+  image: cytopia/yamllint:latest
+  script:
+    - 'yamllint -d "{extends: default, rules: {line-length: disable, truthy: disable}}" argocd/ k8s/ charts/'
+
+# -----------------------------------------------------------------------------
+# STAGE 2: TEST
+# -----------------------------------------------------------------------------
+test:pytest:
+  stage: test
+  image: python:3.11-slim
+  before_script:
+    - apt-get update && apt-get install -y default-jre-headless gcc build-essential
+    - pip install --upgrade pip setuptools wheel
+    - pip install -r requirements-dev.txt
+    - pip install -r requirements.txt
+  script:
+    - pytest tests/ -v --cov=src --cov-report=xml
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+
+# -----------------------------------------------------------------------------
+# STAGE 3: BUILD
+# -----------------------------------------------------------------------------
+build:airflow-image:
+  extends: .docker-in-docker
+  stage: build
+  script:
+    - export TAG="${CI_COMMIT_TAG:-$CI_COMMIT_SHORT_SHA}"
+    - echo "Building Airflow Image: $AIRFLOW_IMAGE_NAME:$TAG"
+    - docker build
+        --file docker/Dockerfile.airflow
+        --tag "$AIRFLOW_IMAGE_NAME:$TAG"
+        --tag "$AIRFLOW_IMAGE_NAME:latest"
+        .
+    - docker push "$AIRFLOW_IMAGE_NAME:$TAG"
+    - docker push "$AIRFLOW_IMAGE_NAME:latest"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_TAG'
+
+# -----------------------------------------------------------------------------
+# STAGE 4: SCAN
+# -----------------------------------------------------------------------------
+scan:container-security:
+  stage: scan
+  image:
+    name: aquasec/trivy:latest
+    entrypoint: [""]
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - export TAG="${CI_COMMIT_TAG:-$CI_COMMIT_SHORT_SHA}"
+    - trivy image --exit-code 0 --severity HIGH,CRITICAL "$AIRFLOW_IMAGE_NAME:$TAG"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_TAG'
+
+# -----------------------------------------------------------------------------
+# STAGE 5: PACKAGE
+# -----------------------------------------------------------------------------
+package:helm-garage:
+  stage: package
+  image: alpine/helm:3.14.0
+  script:
+    - helm package charts/garage --destination .
+    - export CHART_TGZ=$(ls garage-*.tgz)
+    - |
+      if [ -n "$CI_SERVER_HOST" ] && [ -n "$CI_PROJECT_ID" ]; then
+        curl --request POST \
+             --form "chart=@${CHART_TGZ}" \
+             --user "gitlab-ci-token:${CI_JOB_TOKEN}" \
+             "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/stable/charts"
+      fi
+  artifacts:
+    paths:
+      - garage-*.tgz
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_TAG'
+
+# -----------------------------------------------------------------------------
+# STAGE 6: DEPLOY (ArgoCD GitOps Sync Notification)
+# -----------------------------------------------------------------------------
+deploy:argocd-sync:
+  stage: deploy
+  image: curlimages/curl:latest
+  script:
+    - |
+      if [ -n "$ARGOCD_SERVER" ] && [ -n "$ARGOCD_AUTH_TOKEN" ]; then
+        echo "Notifying ArgoCD to synchronize applications..."
+        curl -sSL -k -X POST "$ARGOCD_SERVER/api/v1/applications/medical-lakehouse-root/sync" \
+          -H "Authorization: Bearer $ARGOCD_AUTH_TOKEN" \
+          -H "Content-Type: application/json"
+      else
+        echo "ARGOCD_SERVER or ARGOCD_AUTH_TOKEN not defined. ArgoCD GitOps automated polling will manage sync."
+      fi
+  environment:
+    name: production
+  rules:
+    - if: '$CI_COMMIT_TAG'
+      when: manual
+    - if: '$CI_COMMIT_BRANCH == "main"'

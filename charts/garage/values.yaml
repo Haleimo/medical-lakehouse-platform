@@ -1,0 +1,77 @@
+global:
+  namespace: data-lake
+
+garage:
+  replicaCount: 1
+  image:
+    repository: dxflrs/garage
+    tag: v1.0.1
+    pullPolicy: IfNotPresent
+
+  # --- Secrets ---
+  # SECURITY: rpcSecret / adminToken are intentionally left empty here. Do
+  # NOT put real values in this file or in `--set` on a command line that
+  # ends up in shell history / CI logs.
+  #
+  # Preferred: `existingSecret` names a Secret you create out-of-band, e.g.:
+  #   kubectl create secret generic garage-credentials \
+  #     --from-literal=rpc-secret="$(openssl rand -hex 32)" \
+  #     --from-literal=admin-token="$(openssl rand -hex 32)" \
+  #     -n data-lake
+  # In GitOps (ArgoCD), this Secret would instead come from Sealed Secrets /
+  # External Secrets Operator / SOPS -- see argocd/README.md.
+  #
+  # Fallback: if existingSecret is empty, templates/secret.yaml generates a
+  # Secret from rpcSecret/adminToken below -- but those are empty by default
+  # on purpose, so you must supply them via a local, gitignored values file:
+  #   helm install garage ./charts/garage -f values.yaml -f values-secrets.local.yaml
+  existingSecret: ""
+  rpcSecret: ""
+  adminToken: ""
+
+  storage:
+    size: 50Gi
+    storageClass: standard
+    # See README "Known limitations": a single PVC with replicationFactor=1
+    # is portfolio/demo-grade durability, not production HA. A real
+    # multi-node Garage cluster needs one PV per node plus
+    # replication_factor=3.
+  service:
+    s3Port: 3900
+    rpcPort: 3901
+    webPort: 3902
+    adminPort: 3903
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+webui:
+  enabled: true
+  image:
+    repository: khairul169/garage-webui
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    port: 3000
+  env:
+    GARAGE_ADMIN_URL: "http://garage:3903"
+    GARAGE_S3_URL: "http://garage:3900"
+    # GARAGE_ADMIN_TOKEN is NOT set here -- it is injected from the same
+    # Secret as garage.adminToken (see templates/deployment-webui.yaml).
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+
+ingress:
+  enabled: true
+  className: kong
+  webuiHost: garage-ui.dlake.local
+  s3Host: s3.dlake.local

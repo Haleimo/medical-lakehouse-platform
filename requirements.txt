@@ -1,0 +1,36 @@
+# Core pipeline dependencies (ingestion, parsing, de-identification, quality, tests)
+pandas>=2.1,<3.0
+boto3>=1.34
+pytest>=8.0
+python-dotenv>=1.0
+
+# Python's stdlib `distutils` was removed in Python 3.12 (PEP 632). PySpark
+# 3.5.x's pandas<->Spark conversion path (pyspark/sql/pandas/utils.py) still
+# does `from distutils.version import LooseVersion` at import time, so on
+# Python 3.12+ any code path that touches pandas conversion (e.g. the Gold
+# aggregation step, which uses pandas under the hood) fails with
+# `ModuleNotFoundError: No module named 'distutils'` -- confirmed by actually
+# running the test suite on Python 3.12 here. Pinning setuptools below 81
+# keeps its bundled `setuptools._distutils` shim active, which restores a
+# working top-level `import distutils` without needing to touch pyspark or
+# Python itself. Safe to remove once this project moves to pyspark>=4.1.
+setuptools<81
+
+# Spark transformation jobs (spark/jobs/*.py). Requires a JDK (11 or 17) on
+# the machine/image running these jobs. Iceberg + Nessie Spark extensions
+# (org.apache.iceberg:iceberg-spark-runtime-*, org.projectnessie:*) are NOT
+# pinned here -- they are supplied at spark-submit time via
+# `spark.jars.packages` / `--packages` for cluster/production runs (see
+# config/spark-defaults.conf and the README "Iceberg/Nessie" section), and
+# are not required at all for local[*] dev mode (RUN_MODE=local).
+pyspark>=3.5,<4.0
+
+# Airflow is intentionally NOT pinned here: apache-airflow has a very large,
+# version-coupled dependency set and should be installed with the official
+# constraints file for your Python version, e.g.:
+#   pip install "apache-airflow==2.9.3" \
+#     --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.9.3/constraints-3.11.txt"
+# See docker/Dockerfile.airflow, which does exactly this for the Airflow image.
+pyarrow>=14  # required: pandas Parquet engine used to read Silver tables in the DAG's
+             # data_quality task (dags/medical_data_pipeline.py), and enables
+             # Arrow-optimized pandas<->Spark conversion in the Gold job

@@ -1,0 +1,20 @@
+[project]
+name = "medical-lakehouse-platform"
+version = "1.0.0"
+description = "End-to-end Medical Data Lakehouse Platform orchestrated by Airflow, PySpark, Iceberg, Nessie, and Trino with Kubernetes, GitHub, GitLab CI, and ArgoCD"
+authors = [
+    { name = "Abdelhaleem Mohammed", email = "abdelhaleemmmohammed@example.com" },
+    { name = "Mahmoud Saad", email = "mahmoudsaad@example.com" }
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+exclude = ["helm", "charts", "argocd", "k8s"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "I"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B"]

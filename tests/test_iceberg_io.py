@@ -3,6 +3,7 @@
 These prove the create-then-MERGE / replace logic; they cannot prove the MERGE
 works against a live Nessie catalog -- that still needs a real cluster.
 """
+
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -14,8 +15,10 @@ from spark.jobs import common
 def _no_spark_transforms():
     # prepare_for_iceberg / partition exprs need pyspark; stub them so the
     # sequencing logic is what's under test.
-    with patch.object(common, "prepare_for_iceberg", side_effect=lambda df, table: df), \
-         patch.object(common, "_partition_exprs", return_value=["PARTITION_EXPR"]):
+    with (
+        patch.object(common, "prepare_for_iceberg", side_effect=lambda df, table: df),
+        patch.object(common, "_partition_exprs", return_value=["PARTITION_EXPR"]),
+    ):
         yield
 
 
@@ -33,7 +36,9 @@ def test_first_write_creates_a_partitioned_table():
 def test_subsequent_write_merges_by_key_instead_of_replacing():
     spark, df = MagicMock(), MagicMock()
     spark.catalog.tableExists.return_value = True
-    result = common.upsert_iceberg_table(spark, df, "iceberg.medical.dicom_metadata", "dicom_metadata", key="sop_instance_uid")
+    result = common.upsert_iceberg_table(
+        spark, df, "iceberg.medical.dicom_metadata", "dicom_metadata", key="sop_instance_uid"
+    )
     assert result == "merged"
     sql = spark.sql.call_args[0][0]
     assert sql.startswith("MERGE INTO iceberg.medical.dicom_metadata")

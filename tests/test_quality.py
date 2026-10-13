@@ -76,15 +76,24 @@ def test_enforce_quality_gate_passes_within_threshold():
 def test_find_missing_required_returns_structured_issues_with_custom_key():
     rows = [{"sop_instance_uid": "1.2", "modality": None}, {"sop_instance_uid": None, "modality": "CT"}]
     issues = find_missing_required(rows, ["sop_instance_uid", "modality"], id_field="sop_instance_uid")
-    assert [(i.row_index, i.record_id, i.field) for i in issues] == [(0, "1.2", "modality"), (1, None, "sop_instance_uid")]
+    assert [(i.row_index, i.record_id, i.field) for i in issues] == [
+        (0, "1.2", "modality"),
+        (1, None, "sop_instance_uid"),
+    ]
 
 
 def test_check_required_not_null_respects_id_field_in_message():
-    errors = check_required_not_null([{"sop_instance_uid": "1.2", "modality": None}], ["modality"], id_field="sop_instance_uid")
+    errors = check_required_not_null(
+        [{"sop_instance_uid": "1.2", "modality": None}], ["modality"], id_field="sop_instance_uid"
+    )
     assert "id=1.2" in errors[0]
 
 
 def test_find_referential_violations_null_fk_is_allowed_and_index_is_reported():
-    rows = [{"id": "a", "encounter_id": None}, {"id": "b", "encounter_id": "e-missing"}, {"id": "c", "encounter_id": "e1"}]
+    rows = [
+        {"id": "a", "encounter_id": None},
+        {"id": "b", "encounter_id": "e-missing"},
+        {"id": "c", "encounter_id": "e1"},
+    ]
     issues = find_referential_violations(rows, {"e1"}, fk_field="encounter_id")
     assert [(i.row_index, i.record_id) for i in issues] == [(1, "b")]

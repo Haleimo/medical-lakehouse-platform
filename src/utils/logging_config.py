@@ -6,6 +6,7 @@ Every pipeline component should call `get_logger(__name__)` instead of using
 log aggregator (Loki, ELK, CloudWatch) without a custom parser, and are also
 readable in a terminal.
 """
+
 from __future__ import annotations
 
 import json

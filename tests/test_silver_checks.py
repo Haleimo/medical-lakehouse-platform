@@ -4,6 +4,7 @@ The original DAG data_quality task read the wrong file format, saw an empty
 list, and passed vacuously -- while every test stayed green. These tests feed
 real Parquet and assert on findings, so a no-op implementation fails them.
 """
+
 import pandas as pd
 import pytest
 
@@ -22,10 +23,21 @@ def silver(tmp_path):
     d = tmp_path / "silver"
     _write(d, "patient", [{"id": "p1", "gender": "f", "mrn_hash": "h1"}, {"id": "p2", "gender": "m", "mrn_hash": "h2"}])
     _write(d, "encounter", [{"id": "e1", "patient_id": "p1", "period_start": "2026-01-05T09:00:00+00:00"}])
-    _write(d, "observation", [
-        {"id": "o1", "patient_id": "p1", "encounter_id": "e1", "status": "final",
-         "value_quantity_value": 5.0, "value_string": None, "effective_datetime": "2026-01-05T09:00:00+00:00"},
-    ])
+    _write(
+        d,
+        "observation",
+        [
+            {
+                "id": "o1",
+                "patient_id": "p1",
+                "encounter_id": "e1",
+                "status": "final",
+                "value_quantity_value": 5.0,
+                "value_string": None,
+                "effective_datetime": "2026-01-05T09:00:00+00:00",
+            },
+        ],
+    )
     return d
 
 
@@ -70,9 +82,20 @@ def test_null_numeric_value_counts_as_missing(tmp_path):
     # NaN is not None: without NaN->None normalization this finalized
     # observation would look like it has a value.
     _write(tmp_path / "s", "patient", [{"id": "p1", "mrn_hash": "h1"}])
-    _write(tmp_path / "s", "observation", [
-        {"id": "o1", "patient_id": "p1", "encounter_id": None, "status": "final",
-         "value_quantity_value": float("nan"), "value_string": None}])
+    _write(
+        tmp_path / "s",
+        "observation",
+        [
+            {
+                "id": "o1",
+                "patient_id": "p1",
+                "encounter_id": None,
+                "status": "final",
+                "value_quantity_value": float("nan"),
+                "value_string": None,
+            }
+        ],
+    )
     m = run_silver_quality_checks(tmp_path / "s")
     assert m.invalid_records == 1
 
@@ -86,10 +109,14 @@ def test_detects_invalid_date(tmp_path):
 def test_dicom_must_link_to_a_patient_mrn_hash(tmp_path):
     good = hash_identifier("MRN-1", salt="s")
     _write(tmp_path / "s", "patient", [{"id": "p1", "mrn_hash": good}])
-    _write(tmp_path / "s", "dicom_metadata", [
-        {"sop_instance_uid": "1.1", "patient_id": good},
-        {"sop_instance_uid": "1.2", "patient_id": "no-such-hash"},
-    ])
+    _write(
+        tmp_path / "s",
+        "dicom_metadata",
+        [
+            {"sop_instance_uid": "1.1", "patient_id": good},
+            {"sop_instance_uid": "1.2", "patient_id": "no-such-hash"},
+        ],
+    )
     m = run_silver_quality_checks(tmp_path / "s")
     assert m.invalid_records == 1 and any("no-such-hash" in e for e in m.errors)
 

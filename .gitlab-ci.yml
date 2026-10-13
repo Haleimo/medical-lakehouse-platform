@@ -1,5 +1,5 @@
 # Medical Lakehouse Platform - GitLab CI/CD Pipeline
-# Standard enterprise GitOps build, scan, package, and deploy pipeline
+# lint -> test -> build -> scan -> package -> deploy
 
 stages:
   - lint
@@ -13,27 +13,32 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: "/certs"
   AIRFLOW_IMAGE_NAME: "$CI_REGISTRY_IMAGE/airflow"
-  GARAGE_CHART_NAME: "garage"
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  PYTHONPATH: "."
 
-# Default configuration for all jobs
 default:
   interruptible: true
+
+cache:
+  key: pip-$CI_COMMIT_REF_SLUG
+  paths:
+    - .cache/pip
 
 .docker-in-docker:
   image: docker:25.0.3
   services:
     - docker:25.0.3-dind
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
 
 # -----------------------------------------------------------------------------
-# STAGE 1: LINT
+# LINT
 # -----------------------------------------------------------------------------
 lint:python:
   stage: lint
   image: python:3.11-slim
   script:
-    - pip install ruff
+    - pip install "ruff>=0.6"
     - ruff check .
     - ruff format --check .
 
@@ -41,48 +46,57 @@ lint:dockerfile:
   stage: lint
   image: hadolint/hadolint:latest-alpine
   script:
-    - hadolint docker/Dockerfile.airflow
+    # Fail only on real errors; style warnings (unpinned apt/pip, etc.) don't block.
+    - hadolint --failure-threshold error docker/Dockerfile.airflow
 
 lint:helm:
   stage: lint
-  image: alpine/helm:3.14.0
+  image:
+    name: alpine/helm:3.14.0
+    entrypoint: [""]
   script:
     - helm lint charts/garage
 
 lint:yaml:
   stage: lint
-  image: cytopia/yamllint:latest
+  image: python:3.11-slim
   script:
-    - 'yamllint -d "{extends: default, rules: {line-length: disable, truthy: disable}}" argocd/ k8s/ charts/'
+    - pip install yamllint
+    # Helm templates ({{ ... }}) are not valid YAML, so they are excluded.
+    - |
+      yamllint -d "{extends: default, ignore: 'charts/*/templates/', rules: {line-length: disable, truthy: disable, document-start: disable}}" \
+        argocd/ k8s/ charts/
 
 # -----------------------------------------------------------------------------
-# STAGE 2: TEST
+# TEST
 # -----------------------------------------------------------------------------
 test:pytest:
   stage: test
   image: python:3.11-slim
   before_script:
-    - apt-get update && apt-get install -y default-jre-headless gcc build-essential
-    - pip install --upgrade pip setuptools wheel
-    - pip install -r requirements-dev.txt
-    - pip install -r requirements.txt
+    - apt-get update && apt-get install -y --no-install-recommends default-jre-headless gcc build-essential
+    - pip install --upgrade pip wheel
+    - pip install -r requirements-dev.txt   # includes requirements.txt and pytest-cov
   script:
-    - pytest tests/ -v --cov=src --cov-report=xml
+    - pytest tests/ -v --cov=src --cov-report=xml --cov-report=term
+  coverage: '/TOTAL.*\s+(\d+)%/'
   artifacts:
+    when: always
     reports:
       coverage_report:
         coverage_format: cobertura
         path: coverage.xml
 
 # -----------------------------------------------------------------------------
-# STAGE 3: BUILD
+# BUILD
 # -----------------------------------------------------------------------------
 build:airflow-image:
   extends: .docker-in-docker
   stage: build
+  interruptible: false
   script:
     - export TAG="${CI_COMMIT_TAG:-$CI_COMMIT_SHORT_SHA}"
-    - echo "Building Airflow Image: $AIRFLOW_IMAGE_NAME:$TAG"
+    - echo "Building $AIRFLOW_IMAGE_NAME:$TAG"
     - |
       docker build \
         --file docker/Dockerfile.airflow \
@@ -96,38 +110,47 @@ build:airflow-image:
     - if: '$CI_COMMIT_TAG'
 
 # -----------------------------------------------------------------------------
-# STAGE 4: SCAN
+# SCAN
 # -----------------------------------------------------------------------------
 scan:container-security:
   stage: scan
   image:
     name: aquasec/trivy:latest
     entrypoint: [""]
+  needs: ["build:airflow-image"]
   variables:
     GIT_STRATEGY: none
+    # Trivy runs in a fresh job: it must authenticate to pull from the private registry.
+    TRIVY_USERNAME: "$CI_REGISTRY_USER"
+    TRIVY_PASSWORD: "$CI_REGISTRY_PASSWORD"
+    TRIVY_AUTH_URL: "$CI_REGISTRY"
+    TRIVY_NO_PROGRESS: "true"
   script:
     - export TAG="${CI_COMMIT_TAG:-$CI_COMMIT_SHORT_SHA}"
+    # Report-only (exit-code 0). Change to 1 to make HIGH/CRITICAL findings block the pipeline.
     - trivy image --exit-code 0 --severity HIGH,CRITICAL "$AIRFLOW_IMAGE_NAME:$TAG"
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_TAG'
 
 # -----------------------------------------------------------------------------
-# STAGE 5: PACKAGE
+# PACKAGE
 # -----------------------------------------------------------------------------
 package:helm-garage:
   stage: package
-  image: alpine/helm:3.14.0
+  image:
+    name: alpine/helm:3.14.0
+    entrypoint: [""]
+  before_script:
+    - apk add --no-cache curl
   script:
     - helm package charts/garage --destination .
     - export CHART_TGZ=$(ls garage-*.tgz)
     - |
-      if [ -n "$CI_SERVER_HOST" ] && [ -n "$CI_PROJECT_ID" ]; then
-        curl --request POST \
-             --form "chart=@${CHART_TGZ}" \
-             --user "gitlab-ci-token:${CI_JOB_TOKEN}" \
-             "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/stable/charts"
-      fi
+      curl --fail --request POST \
+           --form "chart=@${CHART_TGZ}" \
+           --user "gitlab-ci-token:${CI_JOB_TOKEN}" \
+           "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/stable/charts"
   artifacts:
     paths:
       - garage-*.tgz
@@ -136,20 +159,21 @@ package:helm-garage:
     - if: '$CI_COMMIT_TAG'
 
 # -----------------------------------------------------------------------------
-# STAGE 6: DEPLOY (ArgoCD GitOps Sync Notification)
+# DEPLOY (ArgoCD sync trigger)
 # -----------------------------------------------------------------------------
 deploy:argocd-sync:
   stage: deploy
   image: curlimages/curl:latest
+  interruptible: false
   script:
     - |
       if [ -n "$ARGOCD_SERVER" ] && [ -n "$ARGOCD_AUTH_TOKEN" ]; then
         echo "Notifying ArgoCD to synchronize applications..."
-        curl -sSL -k -X POST "$ARGOCD_SERVER/api/v1/applications/medical-lakehouse-root/sync" \
+        curl --fail -sS -X POST "$ARGOCD_SERVER/api/v1/applications/medical-lakehouse-root/sync" \
           -H "Authorization: Bearer $ARGOCD_AUTH_TOKEN" \
           -H "Content-Type: application/json"
       else
-        echo "ARGOCD_SERVER or ARGOCD_AUTH_TOKEN not defined. ArgoCD GitOps automated polling will manage sync."
+        echo "ARGOCD_SERVER / ARGOCD_AUTH_TOKEN not set; relying on ArgoCD auto-sync polling."
       fi
   environment:
     name: production

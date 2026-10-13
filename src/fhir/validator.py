@@ -13,6 +13,7 @@ catch malformed ingestion data in a portfolio pipeline:
 Anything that fails validation is routed to quarantine by the ingestion
 module -- it is never silently dropped.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -73,8 +74,7 @@ def validate_resource(resource: dict) -> ValidationResult:
 
     if resource_type not in SUPPORTED_RESOURCE_TYPES:
         result.add_error(
-            f"unsupported resourceType '{resource_type}'; supported types are "
-            f"{sorted(SUPPORTED_RESOURCE_TYPES)}"
+            f"unsupported resourceType '{resource_type}'; supported types are {sorted(SUPPORTED_RESOURCE_TYPES)}"
         )
         return result
 
@@ -92,8 +92,14 @@ def validate_resource(resource: dict) -> ValidationResult:
     if resource_type == "Observation":
         status = resource.get("status")
         valid_statuses = {
-            "registered", "preliminary", "final", "amended",
-            "corrected", "cancelled", "entered-in-error", "unknown",
+            "registered",
+            "preliminary",
+            "final",
+            "amended",
+            "corrected",
+            "cancelled",
+            "entered-in-error",
+            "unknown",
         }
         if status not in valid_statuses:
             result.add_error(f"invalid Observation.status '{status}'")
@@ -104,8 +110,15 @@ def validate_resource(resource: dict) -> ValidationResult:
     if resource_type == "Encounter":
         status = resource.get("status")
         valid_statuses = {
-            "planned", "arrived", "triaged", "in-progress", "onleave",
-            "finished", "cancelled", "entered-in-error", "unknown",
+            "planned",
+            "arrived",
+            "triaged",
+            "in-progress",
+            "onleave",
+            "finished",
+            "cancelled",
+            "entered-in-error",
+            "unknown",
         }
         if status not in valid_statuses:
             result.add_error(f"invalid Encounter.status '{status}'")
@@ -113,8 +126,14 @@ def validate_resource(resource: dict) -> ValidationResult:
     if resource_type == "MedicationRequest":
         status = resource.get("status")
         valid_statuses = {
-            "active", "on-hold", "cancelled", "completed",
-            "entered-in-error", "stopped", "draft", "unknown",
+            "active",
+            "on-hold",
+            "cancelled",
+            "completed",
+            "entered-in-error",
+            "stopped",
+            "draft",
+            "unknown",
         }
         if status not in valid_statuses:
             result.add_error(f"invalid MedicationRequest.status '{status}'")

@@ -11,6 +11,7 @@ README "Known limitations".
 boto3 is only imported when actually needed (RUN_MODE != local) so the local
 dev / test path has no hard dependency on network access or S3 credentials.
 """
+
 from __future__ import annotations
 
 import json

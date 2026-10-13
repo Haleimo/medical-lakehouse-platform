@@ -22,6 +22,7 @@ Transformation policy (documented, also see README "De-identification" section):
 The salt used for hashing is read from configuration
 (`DEID_SALT` env var / Kubernetes Secret) -- never hardcoded.
 """
+
 from __future__ import annotations
 
 import hashlib

@@ -36,6 +36,7 @@ def test_generalize_postal_code():
 
 def test_generalize_birth_date_produces_age_band():
     from datetime import date
+
     result = generalize_birth_date("1982-04-17", reference_date=date(2026, 1, 5))
     assert result["birth_year"] == 1982
     assert result["age_band"] == "40-49"
@@ -43,21 +44,31 @@ def test_generalize_birth_date_produces_age_band():
 
 def test_generalize_birth_date_caps_at_90_plus():
     from datetime import date
+
     result = generalize_birth_date("1930-01-01", reference_date=date(2026, 1, 5))
     assert result["age_band"] == "90+"
 
 
 def test_deidentify_patient_row_removes_direct_identifiers():
     row = {
-        "id": "pat-1", "mrn": "MRN-778812", "ssn": "123-45-6789",
-        "first_name": "Elena", "last_name": "Rivera", "phone": "555-1", "email": "e@x.com",
-        "address_line": "482 Maple St", "city": "Springfield", "postal_code": "62704",
-        "birth_date": "1982-04-17", "gender": "female", "state": "IL", "country": "US",
+        "id": "pat-1",
+        "mrn": "MRN-778812",
+        "ssn": "123-45-6789",
+        "first_name": "Elena",
+        "last_name": "Rivera",
+        "phone": "555-1",
+        "email": "e@x.com",
+        "address_line": "482 Maple St",
+        "city": "Springfield",
+        "postal_code": "62704",
+        "birth_date": "1982-04-17",
+        "gender": "female",
+        "state": "IL",
+        "country": "US",
     }
     out = deidentify_patient_row(row)
 
-    for forbidden in ["mrn", "ssn", "first_name", "last_name", "phone", "email",
-                      "address_line", "city", "birth_date"]:
+    for forbidden in ["mrn", "ssn", "first_name", "last_name", "phone", "email", "address_line", "city", "birth_date"]:
         assert forbidden not in out
 
     assert "mrn_hash" in out and out["mrn_hash"] != row["mrn"]

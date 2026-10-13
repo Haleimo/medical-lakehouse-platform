@@ -18,6 +18,7 @@ Checks per table (where the columns exist):
     and for DICOM metadata patient_id -> patient.mrn_hash
   * finalized Observations carry a value
 """
+
 from __future__ import annotations
 
 from pathlib import Path

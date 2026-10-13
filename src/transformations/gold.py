@@ -19,6 +19,7 @@ All groupbys therefore use ``dropna=False`` -- pandas drops rows whose group
 key is null by default, which silently lost observations that had no coding
 system (see tests/test_gold_transformations.py::test_no_rows_lost_*).
 """
+
 from __future__ import annotations
 
 import pandas as pd
@@ -73,12 +74,7 @@ def observation_daily_summary(observations: pd.DataFrame) -> pd.DataFrame:
 def encounter_summary(encounters: pd.DataFrame) -> pd.DataFrame:
     if encounters.empty:
         return pd.DataFrame(columns=["class_code", "status", "encounter_count"])
-    return (
-        encounters.groupby(["class_code", "status"], dropna=False)
-        .size()
-        .rename("encounter_count")
-        .reset_index()
-    )
+    return encounters.groupby(["class_code", "status"], dropna=False).size().rename("encounter_count").reset_index()
 
 
 def condition_summary(conditions: pd.DataFrame) -> pd.DataFrame:

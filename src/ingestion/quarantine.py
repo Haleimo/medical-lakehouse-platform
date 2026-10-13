@@ -9,6 +9,7 @@ the same metadata shape:
 Nothing is silently dropped: a rejected record is either written here or the
 caller raises.
 """
+
 from __future__ import annotations
 
 import uuid

@@ -1,0 +1,36 @@
+[
+  {
+    "sop_instance_uid": "1.2.840.113619.2.55.1.1762893313.1",
+    "series_instance_uid": "1.2.840.113619.2.55.1.1762893313.2",
+    "study_instance_uid": "1.2.840.113619.2.55.1.1762893313.3",
+    "patient_id": "MRN-778812",
+    "modality": "CT",
+    "body_part_examined": "CHEST",
+    "study_date": "2026-01-05",
+    "manufacturer": "Acme Imaging",
+    "institution_name": "Springfield General Hospital",
+    "rows": 512,
+    "columns": 512,
+    "pixel_spacing": "0.6\\0.6",
+    "slice_thickness": 1.25,
+    "patient_name": "Rivera^Elena",
+    "patient_birth_date": "19820417"
+  },
+  {
+    "sop_instance_uid": "1.2.840.113619.2.55.1.1762893313.4",
+    "series_instance_uid": "1.2.840.113619.2.55.1.1762893313.5",
+    "study_instance_uid": "1.2.840.113619.2.55.1.1762893313.6",
+    "patient_id": "MRN-441290",
+    "modality": "MRI",
+    "body_part_examined": "BRAIN",
+    "study_date": "2026-01-06",
+    "manufacturer": "Acme Imaging",
+    "institution_name": "Springfield General Hospital",
+    "rows": 256,
+    "columns": 256,
+    "pixel_spacing": "1.0\\1.0",
+    "slice_thickness": 3.0,
+    "patient_name": "Chen^Marcus",
+    "patient_birth_date": "19571102"
+  }
+]

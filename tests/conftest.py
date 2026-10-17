@@ -7,8 +7,14 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from tests.sample_data import ensure_sample_data  # noqa: E402
+
 SAMPLE_FHIR_DIR = ROOT / "data" / "sample" / "fhir"
 SAMPLE_DICOM_FILE = ROOT / "data" / "sample" / "dicom" / "sample_dicom_metadata.json"
+
+
+def pytest_configure(_config):
+    ensure_sample_data()
 
 
 @pytest.fixture()

@@ -38,6 +38,9 @@ jobs:
         run: |
           ruff format --check .
 
+      - name: Restore sample fixtures if checkout omitted data/sample
+        run: python tests/sample_data.py
+
       - name: Run Pytest Test Suite
         run: |
           pytest tests/ -v --cov=src --cov-report=term-missing

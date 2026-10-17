@@ -99,6 +99,7 @@ test:pytest:
     - rm -rf /var/lib/apt/lists/*
     - pip install --no-cache-dir --upgrade pip setuptools wheel
     - pip install --no-cache-dir -r requirements-dev.txt
+    - python tests/sample_data.py
   script:
     - pytest tests/ -v --cov=src --cov-report=xml
   artifacts:

@@ -1,0 +1,74 @@
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+.python-version
+
+# ---------------------------------------------------------------------------
+# Testing / tooling caches
+# ---------------------------------------------------------------------------
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# ---------------------------------------------------------------------------
+# IDE / editor
+# ---------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ---------------------------------------------------------------------------
+# Environment / secrets
+# ---------------------------------------------------------------------------
+.env
+.env.local
+*.local.yaml
+k8s/secret.local.yaml
+
+# ---------------------------------------------------------------------------
+# Data layers
+#
+# Runtime pipeline output under data/ must not be committed. Sample fixtures
+# under data/sample/ ARE part of the repo: pytest and the local ingestion
+# scripts read them. Do not `git rm --cached data/` after adding these rules
+# or the fixtures disappear from CI checkouts.
+#
+# Use `data/*` (not `data/`) so the negation rules can re-include files.
+# An ignored directory is not descended into, so `data/` + `!data/sample/`
+# would silently drop the fixtures.
+# ---------------------------------------------------------------------------
+data/*
+!data/sample/
+!data/sample/**
+
+# ---------------------------------------------------------------------------
+# Spark / JVM
+# ---------------------------------------------------------------------------
+*.log
+spark-warehouse/
+metastore_db/
+derby.log
+
+# ---------------------------------------------------------------------------
+# OS
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db

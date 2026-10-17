@@ -6,6 +6,19 @@ test suite was already green -- the point of writing them down is that each
 one now has a regression test, so the same defect failing silently again is
 the thing to watch for in review, not just "does `pytest` pass."
 
+## CI -- missing sample fixtures in the GitLab runner workspace
+
+GitLab `main` added a `.gitignore` that ignored `data/` and then dropped the
+tracked files under `data/sample/` from the tree. Pytest setup then raised
+`FileNotFoundError` for `patient_bundle_001.json` / `sample_dicom_metadata.json`,
+and the Spark jobs failed the quality gate / idempotency checks because
+ingestion had nothing to write to Bronze.
+
+Fixed by keeping `data/sample/` tracked with an explicit whitelist
+(`data/*` + `!data/sample/**`), committing a second copy under
+`tests/fixtures/sample/`, and restoring that copy in CI and `pytest_configure`
+when the live directory is absent.
+
 ## Round 2 -- fixes from a second, more adversarial review
 
 Found by re-running the pipeline end to end (including a real `airflow dags

@@ -13,7 +13,7 @@ SAMPLE_FHIR_DIR = ROOT / "data" / "sample" / "fhir"
 SAMPLE_DICOM_FILE = ROOT / "data" / "sample" / "dicom" / "sample_dicom_metadata.json"
 
 
-def pytest_configure(_config):
+def pytest_configure(config):
     ensure_sample_data()
 
 
